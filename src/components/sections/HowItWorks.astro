@@ -1,0 +1,171 @@
+---
+const tabs = [
+  { label: 'Engineering', role: 'engineering' },
+  { label: 'Support & Ops', role: 'support' },
+  { label: 'Enterprise', role: 'enterprise' },
+];
+
+const tabContent: Record<string, { headline: string; sub: string }> = {
+  engineering: {
+    headline: 'Every decision and fix, findable for the next person.',
+    sub: 'Your on-call runbooks write themselves. Incidents become searchable fixes. Architecture debates leave a record.',
+  },
+  support: {
+    headline: 'Turn your best answers into a shared playbook.',
+    sub: 'Threadmark watches for resolved tickets in your channels and turns them into answers anyone can find and use.',
+  },
+  enterprise: {
+    headline: 'An auditable record of every decision that matters.',
+    sub: 'Every entry is timestamped, attributed and immutable. Show compliance exactly who decided what, and when.',
+  },
+};
+
+const steps = [
+  {
+    number: '01',
+    title: 'You pick the channels.',
+    body: 'Only the channels you explicitly add are watched. Everything else is off by default.',
+  },
+  {
+    number: '02',
+    title: 'It listens for outcomes.',
+    body: "Phrases like \u201clet\u2019s go with\u201d, \u201cthat fixed it\u201d, and \u201cthe answer is\u201d signal a knowledge moment.",
+  },
+  {
+    number: '03',
+    title: 'It drafts an entry.',
+    body: 'A short, structured summary linked to the original thread — ready in seconds.',
+  },
+  {
+    number: '04',
+    title: 'A teammate confirms it.',
+    body: 'One click in Slack. The entry is searchable immediately; no one needs to open a wiki.',
+  },
+  {
+    number: '05',
+    title: 'Your team can search it.',
+    body: 'Query from the web app, or ask directly in Slack: /threadmark ask why do we retry webhooks 3 times?',
+  },
+];
+---
+
+<section
+  data-hiw-section
+  id="how-it-works"
+  class="how-it-works bg-ink text-mist py-20 md:py-28 overflow-hidden"
+  aria-labelledby="hiw-heading"
+>
+  <div class="container">
+    <!-- Header -->
+    <div class="mb-12 max-w-[48ch]">
+      <h2 id="hiw-heading" data-reveal="text" class="text-mist mb-4">
+        Five steps. No new tools.
+      </h2>
+      <p class="text-[17px] text-mist/60" style="max-width: 42ch;">
+        Threadmark lives inside Slack and Teams. Your team never has to leave to capture or find knowledge.
+      </p>
+    </div>
+
+    <!-- Role tabs -->
+    <div
+      class="relative flex items-center bg-mist/10 rounded-[var(--radius-btn)] p-1 mb-12 w-fit"
+      role="tablist"
+      aria-label="Role examples"
+    >
+      <!-- Sliding highlight -->
+      <div
+        data-tab-highlight
+        class="absolute top-1 bottom-1 left-1 rounded-[calc(var(--radius-btn)-2px)] bg-mist/20 pointer-events-none transition-none"
+        aria-hidden="true"
+        style="width: 0px;"
+      ></div>
+
+      {tabs.map((tab, i) => (
+        <button
+          data-hiw-tab
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          class="relative z-10 px-5 py-2.5 text-[14px] font-bold rounded-[calc(var(--radius-btn)-2px)] transition-colors duration-[var(--dur-fast)]
+            aria-selected:text-ink aria-[selected=false]:text-mist/60
+            hover:text-mist"
+          type="button"
+        >
+          {tab.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Tab panels -->
+    <div class="mb-14">
+      {tabs.map((tab, i) => (
+        <div
+          data-hiw-panel
+          role="tabpanel"
+          hidden={i !== 0}
+          aria-label={`${tab.label} example`}
+        >
+          <div class="max-w-[44ch]">
+            <h3 class="text-[20px] md:text-[22px] font-extrabold text-mist mb-2 tracking-[-0.02em]">
+              {tabContent[tab.role].headline}
+            </h3>
+            <p class="text-[16px] text-mist/60 leading-[1.55] m-0">
+              {tabContent[tab.role].sub}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Steps timeline -->
+    <div class="relative">
+      <!-- Vertical line (desktop) -->
+      <div
+        class="hidden md:block absolute left-[19px] top-0 bottom-0 w-px bg-mist/10"
+        aria-hidden="true"
+      >
+        <div
+          data-hiw-line-fill
+          class="w-full bg-highlighter origin-top"
+          style="height: 0%;"
+        ></div>
+      </div>
+
+      <ol class="space-y-8 md:space-y-10">
+        {steps.map((step, i) => (
+          <li
+            data-hiw-step
+            class="flex gap-5 md:gap-8 items-start"
+            style="--step-opacity: 0; --step-y: 16px; opacity: var(--step-opacity, 0); transform: translateY(var(--step-y, 16px));"
+          >
+            <!-- Step number -->
+            <div
+              class="w-10 h-10 rounded-full border-2 border-mist/20 flex items-center justify-center text-[12px] font-extrabold text-mist/40 flex-shrink-0 bg-ink"
+              aria-hidden="true"
+            >
+              {step.number}
+            </div>
+            <!-- Content -->
+            <div class="pt-1.5">
+              <h3 class="text-[17px] font-extrabold text-mist mb-1.5 tracking-[-0.02em]">
+                {step.title}
+              </h3>
+              <p class="text-[15px] text-mist/55 leading-[1.55] m-0">
+                {step.body}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initHowItWorksPins, initTabs } from '../../scripts/motion.ts';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initTabs('[data-hiw-tab]', '[data-hiw-panel]');
+    initHowItWorksPins();
+  });
+</script>

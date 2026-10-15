@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+/* Fontsource */
+@import "@fontsource/schibsted-grotesk/400.css";
+@import "@fontsource/schibsted-grotesk/700.css";
+@import "@fontsource/schibsted-grotesk/800.css";
+@import "@fontsource/newsreader/500.css";
+@import "@fontsource/newsreader/500-italic.css";
+
+/* ── Design tokens ──────────────────────────────────────── */
+@theme {
+  /* Colours */
+  --color-mist:        #FBF6F0;
+  --color-blush:       #F6E8DC;
+  --color-ink:         #241B16;
+  --color-highlighter: #F7C948;
+  --color-ember:       #F2603A;
+  --color-moss:        #2F6F6A;
+  --color-fog:         #E6D9CC;
+
+  /* Typography */
+  --font-sans:  "Schibsted Grotesk", system-ui, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
+
+  /* Breakpoints (mobile-first: 640 / 960 / 1280 / 1920) */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 960px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1920px;
+
+  /* Radius */
+  --radius-btn:  999px;
+  --radius-card: 20px;
+  --radius-sm:   8px;
+
+  /* Warm shadows */
+  --shadow-card: 0 12px 32px -12px rgba(120, 60, 20, 0.18);
+  --shadow-sm:   0 2px 8px -2px rgba(120, 60, 20, 0.12);
+}
+
+/* ── Lock to light scheme — no dark mode ───────────────── */
+:root {
+  color-scheme: light;
+}
+
+/* ── Motion tokens (not utilities — used by TS) ─────────── */
+:root {
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:   0.25s;
+  --dur-base:   0.6s;
+  --dur-slow:   1.0s;
+  --stagger:    0.08s;
+}
+
+/* ── Base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--color-mist);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.55;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* ── Typography ─────────────────────────────────────────── */
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+/* Fluid type scale */
+h1 { font-size: clamp(42px, 6vw, 72px); }
+h2 { font-size: clamp(32px, 4vw, 46px); }
+h3 { font-size: clamp(20px, 2vw, 22px); }
+
+p { max-width: 68ch; }
+
+/* Serif only for knowledge entry titles / quotes */
+.font-serif,
+.entry-title,
+.quote-text {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Plain text links — kept in @layer base so Tailwind utilities can override */
+@layer base {
+  a {
+    color: var(--color-moss);
+    text-decoration: none;
+  }
+  a:hover { text-decoration: underline; }
+}
+
+/* ── Utility classes ────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 3vw, 24px);
+}
+
+/* Highlight sweep: a <mark> that has a yellow background sliding in */
+.highlight {
+  position: relative;
+  display: inline;
+  background: none;
+  color: inherit;
+}
+.highlight::after {
+  content: "";
+  position: absolute;
+  inset: -2px -4px;
+  background: var(--color-highlighter);
+  border-radius: 2px;
+  z-index: -1;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.5s var(--ease-enter);
+}
+.highlight.is-visible::after { transform: scaleX(1); }
+
+/* Soft peach glow (hero + final CTA) */
+.peach-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 38%, #FFD3B8 0%, #FFE9DA 45%, transparent 68%);
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.peach-glow.is-visible { opacity: 1; }
+
+/* Warm shadow utilities */
+.shadow-warm     { box-shadow: var(--shadow-card); }
+.shadow-warm-sm  { box-shadow: var(--shadow-sm); }
+
+/* Clip-path reveal helper (applied by JS) */
+.clip-reveal {
+  clip-path: inset(100% 0 0 0);
+  scale: 1.08;
+}
+
+/* SplitText line wrapper (inserted by JS) */
+.line-mask { overflow: hidden; display: block; }
+
+/* Keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--color-moss);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}

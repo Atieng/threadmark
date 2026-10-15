@@ -1,0 +1,136 @@
+---
+const paths = [
+  {
+    role: 'engineering' as const,
+    label: 'Engineering',
+    tagline: 'Capture incident fixes and architecture decisions.',
+    price: 'Free to start',
+    priceNote: 'up to 15 people',
+    bullets: [
+      'Decision and fix capture',
+      'Searchable knowledge base',
+      '5 channels',
+      '90 days history',
+    ],
+    cta: 'Add to Slack',
+    ctaHref: '#early-access',
+    highlight: false,
+  },
+  {
+    role: 'support' as const,
+    label: 'Support & Ops',
+    tagline: 'Turn repeated answers into ready replies.',
+    price: 'From $8',
+    priceNote: 'per person / month',
+    bullets: [
+      'Everything in Free',
+      'Private-chat summaries',
+      'Unlimited channels',
+      'Notion & Confluence sync',
+    ],
+    cta: 'Start free trial',
+    ctaHref: '#early-access',
+    highlight: true,
+  },
+  {
+    role: 'enterprise' as const,
+    label: 'Enterprise & Compliance',
+    tagline: 'Audit trail of every decision. Private cloud.',
+    price: 'Custom',
+    priceNote: 'talk to us',
+    bullets: [
+      'Everything in Business',
+      'Own cloud region',
+      'SSO / SCIM',
+      'Audit logs + retention controls',
+    ],
+    cta: 'Book a call',
+    ctaHref: '#early-access',
+    highlight: false,
+  },
+];
+---
+
+<section
+  class="choose-path py-20 md:py-28"
+  style="overflow-x: clip"
+  aria-labelledby="path-heading"
+  id="choose"
+  data-animated-section
+>
+  <div class="container">
+    <div class="mb-12">
+      <h2 id="path-heading" data-reveal="text" class="text-ink mb-3">
+        Built for how your team works.
+      </h2>
+      <p class="text-[17px] text-ink/60" style="max-width: 44ch;">
+        Pick the path that fits. Your choice personalises this page.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      {paths.map((path, i) => (
+        <button
+          data-slide={i === 0 ? 'left' : i === 2 ? 'right' : 'up'}
+          data-path-role={path.role}
+          class={`path-card text-left p-6 rounded-[var(--radius-card)] border-2 transition-all duration-[var(--dur-base)] cursor-pointer group
+            ${path.highlight
+              ? 'border-ember bg-ember/5 hover:bg-ember/8'
+              : 'border-fog bg-white hover:border-ink/30 hover:bg-mist'
+            }
+          `}
+          type="button"
+          onclick={`setRole('${path.role}')`}
+          aria-pressed="false"
+        >
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-[12px] font-bold text-ink/40">{path.label}</span>
+            {path.highlight && (
+              <span class="text-[11px] font-bold bg-ember text-ink px-2.5 py-1 rounded-[var(--radius-btn)]">
+                Most popular
+              </span>
+            )}
+          </div>
+
+          <p class="text-[16px] text-ink/70 mb-5 leading-[1.45]">{path.tagline}</p>
+
+          <div class="mb-5">
+            <span class="text-[28px] font-extrabold text-ink tracking-[-0.03em] leading-none">{path.price}</span>
+            <span class="text-[13px] text-ink/40 ml-1">{path.priceNote}</span>
+          </div>
+
+          <ul class="space-y-2 mb-6 text-left" aria-label={`${path.label} features`}>
+            {path.bullets.map((b) => (
+              <li class="flex items-center gap-2.5 text-[14px] text-ink/70">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" class="flex-shrink-0 text-moss">
+                  <path d="M2 7l3.5 3.5L12 3.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {b}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href={path.ctaHref}
+            class={`inline-flex items-center justify-center w-full px-5 py-3 text-[14px] font-bold rounded-[var(--radius-btn)] transition-all duration-[var(--dur-fast)]
+              ${path.highlight
+                ? 'bg-ember text-ink hover:brightness-105'
+                : 'bg-ink text-mist hover:bg-ink/90'
+              }
+            `}
+            onclick={(e) => e.stopPropagation()}
+          >
+            {path.cta}
+          </a>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .path-card.path-active {
+    border-color: var(--color-moss);
+    background: color-mix(in srgb, var(--color-moss) 6%, transparent);
+  }
+</style>

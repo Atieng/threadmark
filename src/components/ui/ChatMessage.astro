@@ -1,0 +1,48 @@
+---
+interface Props {
+  author: string;
+  avatar: string;
+  avatarBg?: string;
+  text: string;
+  time?: string;
+  highlight?: boolean;
+  class?: string;
+}
+
+const {
+  author,
+  avatar,
+  avatarBg = '#2F6F6A',
+  text,
+  time,
+  highlight = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<div class={`flex gap-3 py-2 group ${className}`} role="article">
+  <!-- Avatar -->
+  <div
+    class="w-8 h-8 rounded-sm flex-shrink-0 flex items-center justify-center text-[13px] font-bold text-white leading-none mt-0.5"
+    style={`background-color: ${avatarBg}`}
+    aria-hidden="true"
+  >
+    {avatar}
+  </div>
+
+  <!-- Content -->
+  <div class="flex-1 min-w-0">
+    <div class="flex items-baseline gap-2 mb-0.5">
+      <span class="text-[14px] font-bold text-ink">{author}</span>
+      {time && (
+        <time class="text-[12px] text-ink/40" datetime={time}>{time}</time>
+      )}
+    </div>
+    <p class={`text-[14px] leading-[1.5] m-0 max-w-none ${highlight ? 'highlight is-visible relative z-0' : 'text-ink/80'}`}>
+      {highlight && (
+        <span class="absolute inset-[-2px_-4px] bg-highlighter rounded-[2px] -z-10" aria-hidden="true"></span>
+      )}
+      {text}
+    </p>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+---
+// Fictional company wordmarks (text-based, no real brand logos)
+const companies = [
+  'Fieldmark', 'Archway Labs', 'Solveig', 'Crestline', 'Harbour', 'Pinewave',
+];
+
+const stats = [
+  { value: 4200, suffix: '+', label: 'decisions captured', decimals: 0 },
+  { value: 11, suffix: ' hrs', label: 'saved per engineer / month', decimals: 0 },
+  { value: 92, suffix: '%', label: 'of entries confirmed without edits', decimals: 0 },
+];
+---
+
+<section class="social-proof py-16 md:py-20 overflow-hidden" aria-label="Social proof">
+  <div class="container">
+
+    <!-- Scrolling logo strip -->
+    <div class="mb-14">
+      <p class="text-center text-[12px] font-bold text-ink/30 mb-6">
+        Used by teams at
+      </p>
+      <div
+        class="logo-ticker flex items-center gap-12 overflow-hidden"
+        aria-label="Company logos"
+      >
+        <div class="ticker-inner flex items-center gap-12 animate-ticker whitespace-nowrap">
+          {[...companies, ...companies].map((name) => (
+            <span class="text-[16px] font-extrabold text-ink/20 tracking-[-0.02em] flex-shrink-0">
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid sm:grid-cols-3 gap-8 md:gap-12 text-center">
+      {stats.map((stat) => (
+        <div data-reveal="card" class="stat-item">
+          <div class="flex items-baseline justify-center gap-1 mb-2">
+            <span
+              data-count
+              data-target={stat.value}
+              data-suffix={stat.suffix}
+              data-decimals={stat.decimals}
+              class="text-[clamp(40px,5vw,56px)] font-extrabold text-ink tracking-[-0.04em] leading-none"
+              aria-live="polite"
+            >
+              0{stat.suffix}
+            </span>
+          </div>
+          <p class="text-[15px] text-ink/50 m-0">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .animate-ticker {
+    animation: ticker 24s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-ticker { animation: none; }
+  }
+</style>

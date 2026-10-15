@@ -1,0 +1,230 @@
+---
+import entriesData from '../../content/entries.json';
+const { entries } = entriesData;
+
+const typeStyles: Record<string, { pill: string; text: string }> = {
+  Decision: { pill: 'bg-moss/15 text-moss', text: 'text-moss' },
+  Fix:      { pill: 'bg-ember/12 text-ember', text: 'text-ember' },
+  Answer:   { pill: 'bg-ink/8 text-ink/65', text: 'text-ink/55' },
+  Ownership:{ pill: 'bg-highlighter/30 text-ink/70', text: 'text-ink/55' },
+};
+---
+
+<section
+  id="knowledge-base"
+  class="py-20 md:py-28 bg-ink"
+  aria-labelledby="kb-heading"
+  data-animated-section
+>
+  <div class="container">
+    <div class="mb-10 md:mb-12">
+      <h2 id="kb-heading" data-reveal="text" class="text-mist mb-4" style="max-width: 26ch;">
+        A knowledge base that keeps itself current.
+      </h2>
+      <p class="text-[17px] text-mist/55" style="max-width: 52ch;">
+        Decisions don't go stale. When something changes, the old entry is replaced and the new one is linked.
+      </p>
+    </div>
+
+    <!-- Search + filter -->
+    <div class="mb-7">
+      <div class="relative mb-4">
+        <svg
+          class="absolute left-4 top-1/2 -translate-y-1/2 text-mist/35 pointer-events-none"
+          width="16" height="16" viewBox="0 0 24 24" fill="none"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.75"/>
+          <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+        </svg>
+        <input
+          id="kb-search"
+          type="search"
+          placeholder="Search decisions, fixes, answers..."
+          autocomplete="off"
+          class="w-full pl-11 pr-10 py-3 rounded-[var(--radius-btn)] bg-mist/8 border border-mist/18 text-mist placeholder-mist/35 text-[15px] focus:outline-none focus:border-mist/50 transition-colors"
+          aria-label="Search knowledge entries"
+        />
+        <button
+          id="kb-clear"
+          type="button"
+          class="absolute right-3 top-1/2 -translate-y-1/2 text-mist/40 hover:text-mist transition-colors hidden"
+          aria-label="Clear search"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div
+        role="group"
+        aria-label="Filter by entry type"
+        class="flex flex-wrap gap-2"
+      >
+        {['All', 'Decision', 'Fix', 'Answer', 'Ownership'].map((f) => (
+          <button
+            data-filter={f}
+            type="button"
+            aria-pressed={f === 'All' ? 'true' : 'false'}
+            class="kb-chip px-3.5 py-1.5 rounded-[var(--radius-btn)] border text-[13px] font-bold transition-colors"
+          >
+            {f}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Entry list -->
+    <ul id="kb-entries" class="space-y-3" aria-label="Knowledge entries" aria-live="polite">
+      {entries.map((entry) => {
+        const style = typeStyles[entry.type] ?? typeStyles['Answer'];
+        return (
+          <li
+            data-entry
+            data-type={entry.type}
+            data-id={entry.id}
+            data-slide="list"
+          >
+            <article
+              class={`p-5 rounded-[var(--radius-card)] bg-white border ${entry.replaced ? 'border-fog/40 opacity-55' : 'border-fog'} shadow-warm-sm`}
+              aria-label={`${entry.type}: ${entry.title}`}
+            >
+              <div class="flex items-start gap-3 min-w-0">
+                <!-- Type + replaced badges -->
+                <div class="flex items-center gap-2 flex-shrink-0 pt-0.5">
+                  <span class={`text-[11px] font-bold px-2.5 py-1 rounded-[var(--radius-btn)] ${style.pill}`}>
+                    {entry.type}
+                  </span>
+                  {entry.replaced && (
+                    <span class="text-[11px] font-bold text-ember bg-ember/10 px-2.5 py-1 rounded-[var(--radius-btn)]">
+                      Replaced
+                    </span>
+                  )}
+                </div>
+
+                <!-- Title + meta -->
+                <div class="flex-1 min-w-0">
+                  <p
+                    data-entry-title
+                    class={`font-serif text-[16px] leading-[1.45] text-ink ${entry.replaced ? 'line-through opacity-60' : ''}`}
+                  >
+                    {entry.title}
+                  </p>
+
+                  {entry.replaced && (
+                    <p class="text-[12px] text-ember font-medium mt-1.5">
+                      Replaced by a newer decision
+                    </p>
+                  )}
+
+                  <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2.5 text-[12px] text-ink/45">
+                    <span>{entry.channel}</span>
+                    <span aria-hidden="true">·</span>
+                    <span class="flex items-center gap-1.5">
+                      <span
+                        class="w-4 h-4 rounded-full text-[9px] font-bold text-white flex items-center justify-center flex-shrink-0"
+                        style={`background: ${entry.avatarBg};`}
+                        aria-hidden="true"
+                      >
+                        {entry.authorAvatar}
+                      </span>
+                      {entry.author}
+                    </span>
+                    <span aria-hidden="true">·</span>
+                    <span>{entry.date}</span>
+                  </div>
+
+                  {entry.replaces && !entry.replaced && (
+                    <p class="text-[12px] text-ink/40 mt-1.5 font-medium">
+                      Replaces: "{entry.replaces}"
+                    </p>
+                  )}
+                </div>
+              </div>
+            </article>
+          </li>
+        );
+      })}
+    </ul>
+
+    <!-- Empty state -->
+    <div id="kb-empty" hidden class="text-center py-20">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="text-mist/25 mx-auto mb-4" aria-hidden="true">
+        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/>
+        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <p class="text-[16px] text-mist/45">
+        No entries match. Try a broader word, or ask Threadmark in Slack.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .kb-chip {
+    border-color: rgba(251, 246, 240, 0.25);
+    color: rgba(251, 246, 240, 0.60);
+    background: transparent;
+  }
+  .kb-chip:hover {
+    border-color: rgba(251, 246, 240, 0.45);
+    color: rgba(251, 246, 240, 0.85);
+  }
+  .kb-chip[aria-pressed="true"] {
+    border-color: var(--color-mist);
+    background: var(--color-mist);
+    color: var(--color-ink);
+  }
+</style>
+
+<script>
+  let activeFilter = 'All';
+  let searchQuery = '';
+
+  const searchEl = document.getElementById('kb-search') as HTMLInputElement | null;
+  const clearBtn = document.getElementById('kb-clear') as HTMLButtonElement | null;
+  const chips = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const entries = document.querySelectorAll<HTMLElement>('[data-entry]');
+  const emptyEl = document.getElementById('kb-empty') as HTMLElement | null;
+
+  function filterEntries(): void {
+    let visible = 0;
+    entries.forEach((el) => {
+      const type = el.dataset.type ?? '';
+      const titleEl = el.querySelector<HTMLElement>('[data-entry-title]');
+      const text = (titleEl?.textContent ?? '').toLowerCase();
+      const channel = (el.querySelector('span')?.textContent ?? '').toLowerCase();
+      const combined = text + ' ' + channel;
+      const typeOk = activeFilter === 'All' || type === activeFilter;
+      const searchOk = !searchQuery || combined.includes(searchQuery.toLowerCase());
+      el.hidden = !(typeOk && searchOk);
+      if (typeOk && searchOk) visible++;
+    });
+    if (emptyEl) emptyEl.hidden = visible > 0;
+  }
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      activeFilter = chip.dataset.filter ?? 'All';
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      filterEntries();
+    });
+  });
+
+  searchEl?.addEventListener('input', () => {
+    searchQuery = searchEl.value.trim();
+    if (clearBtn) clearBtn.classList.toggle('hidden', !searchQuery);
+    filterEntries();
+  });
+
+  clearBtn?.addEventListener('click', () => {
+    if (searchEl) searchEl.value = '';
+    searchQuery = '';
+    clearBtn.classList.add('hidden');
+    filterEntries();
+  });
+
+  // Initial render
+  filterEntries();
+</script>

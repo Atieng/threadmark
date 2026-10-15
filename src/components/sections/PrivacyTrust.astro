@@ -1,0 +1,179 @@
+---
+const rules = [
+  {
+    icon: 'shield',
+    text: 'Opt-in channels only. Threadmark watches the channels you add it to — nothing else.',
+  },
+  {
+    icon: 'lock',
+    text: 'DMs and private channels need consent from every participant before anything is published.',
+  },
+  {
+    icon: 'eye-off',
+    text: 'Salaries, health details and phone numbers are redacted before a draft is created.',
+  },
+  {
+    icon: 'check-circle',
+    text: 'A human confirms sensitive entries before they appear in the knowledge base.',
+  },
+  {
+    icon: 'cpu',
+    text: 'Messages never train shared AI models. Your conversations stay yours.',
+  },
+];
+
+const channels = [
+  { id: 'ch-payments', name: '#payments-eng', on: true, locked: false },
+  { id: 'ch-incidents', name: '#incidents', on: true, locked: false },
+  { id: 'ch-design', name: '#design', on: false, locked: false },
+  { id: 'ch-random', name: '#random', on: false, locked: false },
+  { id: 'ch-leadership', name: 'leadership (private)', note: '3 of 5 opted in', on: true, locked: true },
+];
+
+const badges = [
+  { label: 'SOC 2 Type II' },
+  { label: 'GDPR' },
+  { label: 'ISO 27001' },
+  { label: 'Encrypted at rest' },
+];
+
+const iconPaths: Record<string, string> = {
+  shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+  lock: 'M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2zM7 11V7a5 5 0 0 1 10 0v4',
+  'eye-off': 'M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22',
+  'check-circle': 'M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z',
+  cpu: 'M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 0-2-2V9m0 0h18',
+};
+---
+
+<section
+  id="trust"
+  class="py-20 md:py-28"
+  aria-labelledby="trust-heading"
+  data-animated-section
+>
+  <div class="container">
+    <div class="mb-12">
+      <h2 id="trust-heading" data-reveal="text" class="text-ink mb-4" style="max-width: 24ch;">
+        Privacy isn't a feature. It's the constraint we built around.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
+      <!-- Left: rules list -->
+      <div data-slide="left">
+        <ul class="space-y-5" aria-label="Privacy rules">
+          {rules.map((rule) => (
+            <li class="flex gap-4 items-start">
+              <div class="flex-shrink-0 w-9 h-9 rounded-[var(--radius-sm)] bg-moss/10 flex items-center justify-center mt-0.5">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-moss" aria-hidden="true">
+                  <path d={iconPaths[rule.icon]} stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <p class="text-[16px] text-ink/75 leading-[1.55]" style="max-width: 40ch;">{rule.text}</p>
+            </li>
+          ))}
+        </ul>
+
+        <!-- Badges -->
+        <div class="mt-10 flex flex-wrap gap-2.5" aria-label="Certifications and compliance">
+          {badges.map((badge) => (
+            <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-btn)] border border-fog bg-white text-[12px] font-bold text-ink/60">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="text-moss" aria-hidden="true">
+                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {badge.label}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right: Channel access card -->
+      <div data-slide="right">
+        <div class="rounded-[var(--radius-card)] border border-fog bg-white shadow-warm overflow-hidden" style="font-size: 14px;">
+          <div class="flex items-center justify-between px-5 py-4 border-b border-fog">
+            <span class="font-bold text-ink text-[15px]">Channel access</span>
+            <span class="text-[12px] text-ink/40">Workspace: Acme Corp</span>
+          </div>
+
+          <ul id="channel-list" class="divide-y divide-fog/60">
+            {channels.map(({ id, name, note, on, locked }) => (
+              <li class="flex items-center gap-3 px-5 py-3.5">
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <span class={`font-mono font-bold text-[13px] ${locked ? 'text-ink/50' : 'text-ink'}`}>
+                      {name.startsWith('#') ? name : `#${name}`}
+                    </span>
+                    {locked && (
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" class="text-ink/30" aria-label="Private — managed separately">
+                        <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    )}
+                  </div>
+                  {note && <p class="text-[11px] text-ink/40 mt-0.5">{note}</p>}
+                </div>
+                <button
+                  role="switch"
+                  id={id}
+                  aria-checked={String(on)}
+                  aria-disabled={String(locked)}
+                  type="button"
+                  class={`relative flex-shrink-0 w-10 h-5.5 rounded-full transition-colors duration-200 ${locked ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
+                  style={`background: ${on ? 'var(--color-moss)' : 'var(--color-fog)'};`}
+                  data-locked={String(locked)}
+                  data-channel-toggle
+                >
+                  <span
+                    class="absolute top-[3px] left-[3px] w-[14px] h-[14px] rounded-full bg-white shadow transition-transform duration-200"
+                    style={on ? 'transform: translateX(18px);' : ''}
+                    aria-hidden="true"
+                  ></span>
+                  <span class="sr-only">Toggle {name}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <div class="px-5 py-3.5 bg-mist/60 border-t border-fog">
+            <p class="text-[13px] text-ink/60">
+              Threadmark can read
+              <strong id="channel-count" class="text-ink">2 channels</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const toggles = document.querySelectorAll<HTMLButtonElement>('[data-channel-toggle]');
+  const countEl = document.getElementById('channel-count');
+
+  function updateCount(): void {
+    let count = 0;
+    toggles.forEach((btn) => {
+      if (btn.dataset.locked !== 'true' && btn.getAttribute('aria-checked') === 'true') {
+        count++;
+      }
+    });
+    if (countEl) {
+      countEl.textContent = count === 1 ? '1 channel' : `${count} channels`;
+    }
+  }
+
+  toggles.forEach((btn) => {
+    if (btn.dataset.locked === 'true') return;
+
+    btn.addEventListener('click', () => {
+      const on = btn.getAttribute('aria-checked') === 'true';
+      btn.setAttribute('aria-checked', String(!on));
+      btn.style.background = !on ? 'var(--color-moss)' : 'var(--color-fog)';
+      const knob = btn.querySelector<HTMLElement>('span');
+      if (knob) knob.style.transform = !on ? 'translateX(18px)' : '';
+      updateCount();
+    });
+  });
+</script>

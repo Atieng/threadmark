@@ -1,0 +1,22 @@
+[
+  {
+    "q": "Will people feel watched?",
+    "a": "Threadmark watches specific channels you choose — no one else. It captures the outcome of a conversation, not every message. Every entry is confirmed by a real teammate before it appears in the knowledge base, so people stay in control of what gets published."
+  },
+  {
+    "q": "How do you handle private channels and DMs?",
+    "a": "Private channels and DMs require the explicit consent of every participant before anything is published. Threadmark asks privately, never shares the original messages, and publishes only a redacted summary. If anyone declines, nothing leaves the room."
+  },
+  {
+    "q": "How is this different from searching Slack?",
+    "a": "Slack search finds threads. Threadmark finds answers. When you ask 'why do we retry webhooks 3 times?', you get a confirmed decision with context, author and date — not a list of threads to read through. Old answers are marked replaced so you never act on stale information."
+  },
+  {
+    "q": "What happens when an entry is wrong?",
+    "a": "Any team member can flag, edit or replace an entry. Old entries are marked as replaced and kept for the audit trail — never deleted. The person who confirmed the original entry is notified so nothing changes without visibility."
+  },
+  {
+    "q": "Does it replace our wiki?",
+    "a": "It complements one. Threadmark captures knowledge as it happens, where your team already works. The Business plan syncs entries to Confluence or Notion automatically, so your wiki stays current without anyone having to remember to update it. Most teams find manual updates stop within a few weeks."
+  }
+]

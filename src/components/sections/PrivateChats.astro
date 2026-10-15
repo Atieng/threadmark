@@ -1,0 +1,106 @@
+---
+import PrivateChatCard from '../mockups/PrivateChatCard.astro';
+import BotDM from '../mockups/BotDM.astro';
+import AutonomyCard from '../mockups/AutonomyCard.astro';
+---
+
+<section
+  id="private"
+  class="py-20 md:py-28"
+  style="overflow-x: clip"
+  aria-labelledby="private-heading"
+  data-animated-section
+>
+  <div class="container">
+    <div class="mb-12 md:mb-16">
+      <h2 id="private-heading" data-reveal="text" class="text-ink mb-4" style="max-width: 22ch;">
+        Private conversations stay private.<br />The knowledge doesn't stay lost.
+      </h2>
+      <p class="text-[17px] text-ink/60" style="max-width: 52ch;">
+        Threadmark is careful by default. It asks before it shares, and never touches what it isn't supposed to.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+
+      <!-- Card A: Blurred chat → summary -->
+      <div data-slide="left" class="flex flex-col gap-4">
+        <PrivateChatCard />
+        <p class="text-[14px] text-ink/55 leading-[1.5] px-1">
+          Only the outcome is shared, never the messages.
+        </p>
+      </div>
+
+      <!-- Card B: Message hover → "Share as knowledge" -->
+      <div data-slide="right" class="flex flex-col gap-4">
+        <div class="rounded-[var(--radius-card)] bg-white shadow-warm overflow-hidden" style="font-size: 13px;">
+          <!-- DM header -->
+          <div class="flex items-center gap-2 px-4 py-2.5 border-b border-fog">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-ink/30">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="font-bold text-ink/50">Direct message — Ravi &amp; Megan</span>
+          </div>
+
+          <div class="px-4 py-3 space-y-3">
+            <!-- Ravi's question -->
+            <div class="flex gap-2 items-start">
+              <span class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-[11px] font-bold text-white mt-0.5" style="background: #C98B3A;" aria-hidden="true">R</span>
+              <div>
+                <div class="flex items-baseline gap-1.5 mb-1">
+                  <span class="font-bold text-ink text-[12px]">Ravi</span>
+                  <span class="text-[10px] text-ink/35">11:04 AM</span>
+                </div>
+                <p class="text-[12px] text-ink/75 leading-[1.5]">How do I get staging DB access? I can't find it anywhere.</p>
+              </div>
+            </div>
+
+            <!-- Megan's answer — shown with hover state active (simulates user hovering) -->
+            <div class="relative">
+              <div class="flex gap-2 items-start rounded-[var(--radius-sm)] bg-highlighter/15 p-1.5 -mx-1.5">
+                <span class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-[11px] font-bold text-white mt-0.5" style="background: #7C5EA5;" aria-hidden="true">M</span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-baseline gap-1.5 mb-1">
+                    <span class="font-bold text-ink text-[12px]">Megan</span>
+                    <span class="text-[10px] text-ink/35">11:06 AM</span>
+                  </div>
+                  <p class="text-[12px] text-ink/75 leading-[1.5]">Request the Okta role <code class="bg-fog px-1 rounded text-[11px]">eng-staging-db</code>. Ask in #it-access. Takes about 10 min.</p>
+                </div>
+              </div>
+              <!-- Action bar (shown as if hovering) -->
+              <div
+                class="absolute -top-3 right-2 flex items-center gap-1 bg-white border border-fog shadow-warm-sm rounded-[var(--radius-sm)] px-2.5 py-1.5"
+                role="toolbar"
+                aria-label="Message actions"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="text-moss flex-shrink-0" aria-hidden="true">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-[11px] font-bold text-moss">Share as knowledge</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="text-[14px] text-ink/55 leading-[1.5] px-1">
+          Anyone can share an answer from a DM, with the other person's OK.
+        </p>
+      </div>
+
+      <!-- Card C: Bot DM asking to publish -->
+      <div data-slide="left" class="flex flex-col gap-4">
+        <BotDM />
+        <p class="text-[14px] text-ink/55 leading-[1.5] px-1">
+          Threadmark asks, privately, before anything leaves the room.
+        </p>
+      </div>
+
+      <!-- Card D: Autonomy toggles -->
+      <div data-slide="right" class="flex flex-col gap-4">
+        <AutonomyCard />
+        <p class="text-[14px] text-ink/55 leading-[1.5] px-1">
+          You choose how autonomous Threadmark is.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

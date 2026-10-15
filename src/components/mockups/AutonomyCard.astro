@@ -1,0 +1,63 @@
+---
+// Autonomy settings card: interactive toggles for how autonomous Threadmark is.
+// First two toggles are interactive; the third is locked on.
+---
+
+<div class="rounded-[var(--radius-card)] bg-white shadow-warm overflow-hidden" style="font-size: 13px;">
+  <div class="px-4 py-3 border-b border-fog">
+    <span class="font-bold text-[13px] text-ink">Capture settings</span>
+  </div>
+  <ul class="divide-y divide-fog/60" id="autonomy-list">
+    {[
+      { id: 'auto-answers', label: 'Answers publish automatically', description: 'Confirmed answers go live without a second prompt', defaultOn: true, locked: false },
+      { id: 'auto-decisions', label: 'Decisions ask first', description: 'You confirm before a decision is published', defaultOn: true, locked: false },
+      { id: 'auto-private', label: 'Private chats always ask everyone', description: 'All participants must consent before anything is shared', defaultOn: true, locked: true },
+    ].map(({ id, label, description, defaultOn, locked }) => (
+      <li class="flex items-center gap-3 px-4 py-3">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="font-medium text-[12px] text-ink">{label}</span>
+            {locked && (
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" class="text-ink/35 flex-shrink-0" aria-label="Locked">
+                <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            )}
+          </div>
+          <p class="text-[11px] text-ink/45 mt-0.5">{description}</p>
+        </div>
+        <button
+          role="switch"
+          id={id}
+          aria-checked={String(defaultOn)}
+          aria-disabled={String(locked)}
+          type="button"
+          class={`relative flex-shrink-0 w-9 h-5 rounded-full transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss ${locked ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'}`}
+          style={`background: ${defaultOn ? 'var(--color-moss)' : 'var(--color-fog)'};`}
+          data-locked={String(locked)}
+        >
+          <span
+            class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform duration-200"
+            style={defaultOn ? 'transform: translateX(16px);' : ''}
+            aria-hidden="true"
+          ></span>
+          <span class="sr-only">{label}</span>
+        </button>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('#autonomy-list [role="switch"]').forEach((btn) => {
+    if (btn.dataset.locked === 'true') return;
+
+    btn.addEventListener('click', () => {
+      const checked = btn.getAttribute('aria-checked') === 'true';
+      btn.setAttribute('aria-checked', String(!checked));
+      btn.style.background = !checked ? 'var(--color-moss)' : 'var(--color-fog)';
+      const knob = btn.querySelector<HTMLElement>('span');
+      if (knob) knob.style.transform = !checked ? 'translateX(16px)' : '';
+    });
+  });
+</script>

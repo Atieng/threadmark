@@ -1,0 +1,219 @@
+{
+  "entries": [
+    {
+      "id": "e1",
+      "type": "Decision",
+      "title": "Retry failed payment webhooks 3 times with backoff, then send to manual review",
+      "channel": "#payments-eng",
+      "author": "Hannah K.",
+      "authorAvatar": "H",
+      "avatarBg": "#C4623E",
+      "contributorsAvatars": ["T", "P"],
+      "contributorsBgs": ["#2F6F6A", "#7C5EA5"],
+      "replaces": "Retry webhooks indefinitely",
+      "timeAgo": "4 min ago",
+      "date": "14 Oct 2026",
+      "source": "#payments-eng › thread",
+      "confirmed": true,
+      "replaced": false
+    },
+    {
+      "id": "e2",
+      "type": "Fix",
+      "title": "Billing cron was running in UTC, causing duplicate invoices — moved to 02:00 Pacific",
+      "channel": "#billing",
+      "author": "Joel R.",
+      "authorAvatar": "J",
+      "avatarBg": "#C98B3A",
+      "contributorsAvatars": [],
+      "contributorsBgs": [],
+      "replaces": null,
+      "timeAgo": "2 hrs ago",
+      "date": "14 Oct 2026",
+      "source": "#billing › thread",
+      "confirmed": true,
+      "replaced": false
+    },
+    {
+      "id": "e3",
+      "type": "Answer",
+      "title": "Staging DB access is granted via the Okta role 'eng-staging-db' — request in #it-access",
+      "channel": "#engineering",
+      "author": "Megan C.",
+      "authorAvatar": "M",
+      "avatarBg": "#7C5EA5",
+      "contributorsAvatars": [],
+      "contributorsBgs": [],
+      "replaces": null,
+      "timeAgo": "Yesterday",
+      "date": "13 Oct 2026",
+      "source": "#engineering › thread",
+      "confirmed": true,
+      "replaced": false
+    },
+    {
+      "id": "e4",
+      "type": "Ownership",
+      "title": "Daniel owns all refund decisions over $500 and is the final approver",
+      "channel": "#support-ops",
+      "author": "Daniel F.",
+      "authorAvatar": "D",
+      "avatarBg": "#C4623E",
+      "contributorsAvatars": [],
+      "contributorsBgs": [],
+      "replaces": null,
+      "timeAgo": "3 days ago",
+      "date": "11 Oct 2026",
+      "source": "#support-ops › thread",
+      "confirmed": true,
+      "replaced": false
+    },
+    {
+      "id": "e5",
+      "type": "Decision",
+      "title": "Stay on ECS until we hit 40 services — revisit Kubernetes migration then",
+      "channel": "#platform",
+      "author": "Lena V.",
+      "authorAvatar": "L",
+      "avatarBg": "#2F6F6A",
+      "contributorsAvatars": ["R"],
+      "contributorsBgs": ["#C98B3A"],
+      "replaces": "Migrate to Kubernetes this quarter",
+      "timeAgo": "1 week ago",
+      "date": "7 Oct 2026",
+      "source": "#platform › thread",
+      "confirmed": true,
+      "replaced": false
+    },
+    {
+      "id": "e6",
+      "type": "Decision",
+      "title": "Retry failed payment webhooks indefinitely",
+      "channel": "#payments-eng",
+      "author": "Tomas B.",
+      "authorAvatar": "T",
+      "avatarBg": "#2F6F6A",
+      "contributorsAvatars": [],
+      "contributorsBgs": [],
+      "replaces": null,
+      "timeAgo": "6 months ago",
+      "date": "15 Apr 2026",
+      "source": "#payments-eng › thread",
+      "confirmed": true,
+      "replaced": true,
+      "replacedBy": "e1"
+    },
+    {
+      "id": "e7",
+      "type": "Fix",
+      "title": "API key rotation: revoke in Vault, re-issue, update the three services in order — see runbook",
+      "channel": "#security",
+      "author": "Priya N.",
+      "authorAvatar": "P",
+      "avatarBg": "#7C5EA5",
+      "contributorsAvatars": [],
+      "contributorsBgs": [],
+      "replaces": null,
+      "timeAgo": "2 weeks ago",
+      "date": "1 Oct 2026",
+      "source": "#security › thread",
+      "confirmed": true,
+      "replaced": false
+    },
+    {
+      "id": "e8",
+      "type": "Answer",
+      "title": "Free-tier accounts are capped at 3 exports per month — this is intentional, not a bug",
+      "channel": "#product",
+      "author": "Hannah K.",
+      "authorAvatar": "H",
+      "avatarBg": "#C4623E",
+      "contributorsAvatars": [],
+      "contributorsBgs": [],
+      "replaces": null,
+      "timeAgo": "3 weeks ago",
+      "date": "24 Sep 2026",
+      "source": "#product › thread",
+      "confirmed": true,
+      "replaced": false
+    }
+  ],
+  "whatItCatches": {
+    "Decisions": {
+      "messages": [
+        { "author": "Lena", "avatar": "L", "bg": "#2F6F6A", "text": "We need to decide on infrastructure. ECS or Kubernetes?" },
+        { "author": "Ravi", "avatar": "R", "bg": "#C98B3A", "text": "ECS is fine until we scale. I'd say move when we hit 40 services." },
+        { "author": "Lena", "avatar": "L", "bg": "#2F6F6A", "text": "OK let's stay on ECS until 40 services, then revisit.", "highlight": true }
+      ],
+      "entry": {
+        "type": "Decision",
+        "title": "Stay on ECS until we hit 40 services — revisit Kubernetes migration then",
+        "author": "Lena V.",
+        "authorAvatar": "L",
+        "avatarBg": "#2F6F6A",
+        "channel": "#platform",
+        "replaces": "Migrate to Kubernetes this quarter"
+      }
+    },
+    "Fixes": {
+      "messages": [
+        { "author": "Joel", "avatar": "J", "bg": "#C98B3A", "text": "Found the bug — billing cron was set to UTC. Running at midnight UTC = 5pm Pacific, overlapping with evening jobs." },
+        { "author": "Joel", "avatar": "J", "bg": "#C98B3A", "text": "Moved it to 02:00 Pacific. Duplicate invoices should stop.", "highlight": true }
+      ],
+      "entry": {
+        "type": "Fix",
+        "title": "Billing cron was running in UTC, causing duplicate invoices — moved to 02:00 Pacific",
+        "author": "Joel R.",
+        "authorAvatar": "J",
+        "avatarBg": "#C98B3A",
+        "channel": "#billing",
+        "replaces": null
+      }
+    },
+    "Answers": {
+      "messages": [
+        { "author": "Ravi", "avatar": "R", "bg": "#C98B3A", "text": "How do I get access to the staging database? I can't find it anywhere." },
+        { "author": "Megan", "avatar": "M", "bg": "#7C5EA5", "text": "Request the Okta role 'eng-staging-db'. It's in #it-access. Takes about 10 min.", "highlight": true }
+      ],
+      "entry": {
+        "type": "Answer",
+        "title": "Staging DB access is granted via the Okta role 'eng-staging-db' — request in #it-access",
+        "author": "Megan C.",
+        "authorAvatar": "M",
+        "avatarBg": "#7C5EA5",
+        "channel": "#engineering",
+        "replaces": null
+      }
+    },
+    "Ownership": {
+      "messages": [
+        { "author": "Priya", "avatar": "P", "bg": "#7C5EA5", "text": "Who's the final call on large refunds? We have a $800 request and no one's sure." },
+        { "author": "Daniel", "avatar": "D", "bg": "#C4623E", "text": "That's me. I own all refund decisions over $500. Ping me directly.", "highlight": true }
+      ],
+      "entry": {
+        "type": "Ownership",
+        "title": "Daniel owns all refund decisions over $500 and is the final approver",
+        "author": "Daniel F.",
+        "authorAvatar": "D",
+        "avatarBg": "#C4623E",
+        "channel": "#support-ops",
+        "replaces": null
+      }
+    },
+    "Changes of mind": {
+      "messages": [
+        { "author": "Hannah", "avatar": "H", "bg": "#C4623E", "text": "Actually, ignore the earlier decision on webhooks." },
+        { "author": "Hannah", "avatar": "H", "bg": "#C4623E", "text": "OK, let's go with 3 retries with backoff, then send to manual review. That replaces the old policy.", "highlight": true }
+      ],
+      "entry": {
+        "type": "Decision",
+        "title": "Retry failed payment webhooks 3 times with backoff, then send to manual review",
+        "author": "Hannah K.",
+        "authorAvatar": "H",
+        "avatarBg": "#C4623E",
+        "channel": "#payments-eng",
+        "replaces": "Retry webhooks indefinitely"
+      }
+    }
+  }
+}

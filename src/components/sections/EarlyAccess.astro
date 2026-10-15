@@ -1,0 +1,186 @@
+---
+const perks = [
+  '24-month price lock — rates never increase while you stay on the plan',
+  'Private Slack channel with our team for direct feedback and support',
+  'Vote on the roadmap — your top-three features move up the queue',
+  '90 days of knowledge history from your first day on Threadmark',
+];
+---
+
+<section
+  id="early-access"
+  class="py-20 md:py-28 bg-ink relative overflow-hidden"
+  aria-labelledby="ea-heading"
+  data-animated-section
+>
+  <!-- Peach glow -->
+  <div
+    class="absolute pointer-events-none"
+    style="inset: 0; background: radial-gradient(ellipse 80% 55% at 50% 45%, rgba(255,180,140,0.18) 0%, rgba(255,220,190,0.08) 55%, transparent 75%);"
+    aria-hidden="true"
+  ></div>
+
+  <div class="container relative">
+    <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
+
+      <!-- Left: headline + perks -->
+      <div data-slide="left">
+        <h2 id="ea-heading" data-reveal="text" class="text-mist mb-5" style="max-width: 20ch;">
+          Stop losing what your team already figured out.
+        </h2>
+        <p class="text-[17px] text-mist/60 mb-8" style="max-width: 44ch;">
+          Join early access. Launch price locked for 24 months, plus a direct line to our team and a vote on what we build next.
+        </p>
+
+        <ul class="space-y-3.5" aria-label="Early access perks">
+          {perks.map((perk) => (
+            <li class="flex items-start gap-3 text-[15px] text-mist/70 leading-[1.5]">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-highlighter flex-shrink-0 mt-0.5" aria-hidden="true">
+                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+              {perk}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Right: form -->
+      <div data-slide="right">
+        <!-- Error message (data-form-error used by form.ts) -->
+        <div
+          id="ea-error"
+          data-form-error
+          role="alert"
+          hidden
+          class="mb-4 px-4 py-3 rounded-[var(--radius-sm)] bg-ember/15 text-mist text-[14px] font-medium"
+        ></div>
+
+        <form
+          id="ea-form"
+          data-early-access-form
+          novalidate
+          aria-label="Join early access"
+          class="space-y-4"
+        >
+          <!-- Email -->
+          <div>
+            <label for="ea-email" class="block text-[13px] font-bold text-mist/60 mb-1.5">
+              Work email <span aria-hidden="true">*</span>
+            </label>
+            <input
+              id="ea-email"
+              name="email"
+              type="email"
+              inputmode="email"
+              autocomplete="work email"
+              required
+              placeholder="you@company.com"
+              class="w-full px-4 py-3 rounded-[var(--radius-btn)] bg-mist/8 border border-mist/18 text-mist placeholder-mist/30 text-[15px] focus:outline-none focus:border-mist/55 transition-colors"
+            />
+          </div>
+
+          <!-- Company -->
+          <div>
+            <label for="ea-company" class="block text-[13px] font-bold text-mist/60 mb-1.5">
+              Company <span aria-hidden="true">*</span>
+            </label>
+            <input
+              id="ea-company"
+              name="company"
+              type="text"
+              autocomplete="organization"
+              required
+              placeholder="Acme Corp"
+              class="w-full px-4 py-3 rounded-[var(--radius-btn)] bg-mist/8 border border-mist/18 text-mist placeholder-mist/30 text-[15px] focus:outline-none focus:border-mist/55 transition-colors"
+            />
+          </div>
+
+          <!-- Team size -->
+          <div>
+            <label for="ea-team-size" class="block text-[13px] font-bold text-mist/60 mb-1.5">
+              Team size <span aria-hidden="true">*</span>
+            </label>
+            <select
+              id="ea-team-size"
+              name="team_size"
+              required
+              class="w-full px-4 py-3 rounded-[var(--radius-btn)] bg-mist/8 border border-mist/18 text-mist text-[15px] focus:outline-none focus:border-mist/55 transition-colors appearance-none cursor-pointer"
+            >
+              <option value="" disabled selected>Select…</option>
+              <option value="1-10">1–10 people</option>
+              <option value="11-50">11–50 people</option>
+              <option value="51-200">51–200 people</option>
+              <option value="200+">200+ people</option>
+            </select>
+          </div>
+
+          <!-- Interests -->
+          <fieldset>
+            <legend class="text-[13px] font-bold text-mist/60 mb-2.5">
+              I'm interested in Threadmark for… <span class="font-normal text-mist/40">(optional)</span>
+            </legend>
+            <div class="space-y-2.5">
+              {[
+                { value: 'engineering', label: 'Engineering — decisions and incident fixes' },
+                { value: 'support', label: 'Support & Ops — answers and ownership' },
+                { value: 'enterprise', label: 'Enterprise & Compliance — audit trail and private cloud' },
+              ].map(({ value, label }) => (
+                <label class="flex items-start gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    name="interest"
+                    value={value}
+                    class="w-4 h-4 mt-0.5 rounded accent-moss flex-shrink-0"
+                  />
+                  <span class="text-[14px] text-mist/65 group-hover:text-mist/85 transition-colors leading-[1.45]">
+                    {label}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <!-- Submit -->
+          <div class="pt-2">
+            <button
+              type="submit"
+              class="w-full px-7 py-4 bg-ember text-ink text-[16px] font-bold rounded-[var(--radius-btn)] hover:brightness-105 hover:scale-[1.01] active:scale-[0.98] transition-all duration-[var(--dur-fast)] shadow-warm-sm"
+            >
+              Join early access
+            </button>
+            <p class="text-[12px] text-mist/30 text-center mt-3">
+              No credit card. Unsubscribe any time.
+            </p>
+          </div>
+        </form>
+
+        <!-- Success state -->
+        <div
+          id="ea-success"
+          data-form-success
+          hidden
+          class="text-center py-12"
+          role="status"
+          aria-live="polite"
+        >
+          <div class="w-14 h-14 rounded-full bg-moss/20 flex items-center justify-center mx-auto mb-5">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="text-moss">
+              <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.75"/>
+            </svg>
+          </div>
+          <h3 class="text-mist text-[22px] mb-3">You're on the list.</h3>
+          <p class="text-[16px] text-mist/55" style="max-width: 36ch; margin-inline: auto;">
+            We'll email you within a week. Check your work inbox — it'll come from hello@threadmark.app.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initForm } from '../../scripts/form.ts';
+  initForm('[data-early-access-form]');
+</script>

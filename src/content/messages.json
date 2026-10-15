@@ -1,0 +1,40 @@
+{
+  "demo": [
+    {
+      "id": "m1",
+      "author": "Tomas",
+      "avatar": "T",
+      "avatarBg": "#2F6F6A",
+      "text": "Seeing a spike in failed payment webhooks. We retry forever and it's hammering the queue.",
+      "time": "2:14 PM",
+      "highlight": false
+    },
+    {
+      "id": "m2",
+      "author": "Priya",
+      "avatar": "P",
+      "avatarBg": "#7C5EA5",
+      "text": "Could we cap it? Most go through on the 2nd try.",
+      "time": "2:16 PM",
+      "highlight": false
+    },
+    {
+      "id": "m3",
+      "author": "Tomas",
+      "avatar": "T",
+      "avatarBg": "#2F6F6A",
+      "text": "Checked last week: 97% succeed by attempt 3.",
+      "time": "2:18 PM",
+      "highlight": false
+    },
+    {
+      "id": "m4",
+      "author": "Hannah",
+      "avatar": "H",
+      "avatarBg": "#C4623E",
+      "text": "OK, let's go with 3 retries with backoff, then send to manual review.",
+      "time": "2:21 PM",
+      "highlight": true
+    }
+  ]
+}

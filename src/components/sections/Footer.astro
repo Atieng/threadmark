@@ -1,0 +1,207 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const columns = [
+  {
+    title: 'Product',
+    links: [
+      { label: 'How it works', href: '#how-it-works' },
+      { label: 'Pricing', href: '#pricing' },
+      { label: 'Integrations', href: '#integrations' },
+      { label: 'Roadmap', href: '#pricing' },
+    ],
+  },
+  {
+    title: 'Trust',
+    links: [
+      { label: 'Privacy model', href: '/privacy' },
+      { label: 'Security', href: '#' },
+      { label: 'Data processing', href: '#' },
+      { label: 'Subprocessors', href: '#' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About', href: '#' },
+      { label: 'Blog', href: '#' },
+      { label: 'Careers', href: '#' },
+      { label: 'Contact', href: '#' },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Docs', href: '#' },
+      { label: 'Changelog', href: '#' },
+      { label: 'Status', href: '#' },
+      { label: 'Help centre', href: '#' },
+    ],
+  },
+];
+---
+
+<footer class="bg-ink" aria-label="Site footer">
+
+  <!-- Top: brand row + email form -->
+  <div class="container pt-16 pb-10 border-b border-mist/10">
+    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8">
+
+      <!-- Brand row: logo + wordmark + tagline -->
+      <div>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <div class="flex items-center gap-2.5 flex-shrink-0">
+            <svg width="28" height="28" viewBox="0 0 40 40" aria-hidden="true">
+              <path d="M9 5h18a7 7 0 0 1 7 7v10a7 7 0 0 1-7 7H17l-8 6v-6a7 7 0 0 1-7-7V12a7 7 0 0 1 7-7z" fill="#FBF6F0"/>
+              <path data-logo-stroke d="M7 15.5 L38 13 L38.6 20.5 L7.6 23 Z" fill="none" stroke="#F7C948" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-[20px] font-extrabold text-mist tracking-[-0.025em]">threadmark</span>
+          </div>
+          <p class="text-[14px] text-mist/60 leading-[1.5]">
+            Knowledge capture for teams that work in chat.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mini email form -->
+      <div class="sm:max-w-sm w-full">
+        <p class="text-[13px] font-bold text-mist/50 mb-3">Join early access</p>
+        <form
+          id="footer-form"
+          novalidate
+          aria-label="Subscribe to early access"
+          class="flex gap-2"
+        >
+          <label for="footer-email" class="sr-only">Work email</label>
+          <input
+            id="footer-email"
+            name="footer-email"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            placeholder="you@company.com"
+            class="flex-1 min-w-0 px-4 py-2.5 rounded-[var(--radius-btn)] bg-mist/8 border border-mist/18 text-mist placeholder-mist/30 text-[14px] focus:outline-none focus:border-mist/50 transition-colors"
+            aria-label="Work email"
+          />
+          <button
+            type="submit"
+            class="flex-shrink-0 px-5 py-2.5 bg-ember text-ink text-[14px] font-bold rounded-[var(--radius-btn)] hover:brightness-105 transition-all"
+          >
+            Join
+          </button>
+        </form>
+        <p id="footer-form-msg" class="text-[12px] text-mist/35 mt-2 min-h-[1.2em]" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link columns -->
+  <div class="container py-10 border-b border-mist/10">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+      {columns.map((col, i) => (
+        <div class="footer-col">
+          <!-- Desktop heading -->
+          <h3 class="hidden sm:block text-[15px] font-semibold text-mist/70 mb-4">
+            {col.title}
+          </h3>
+          <button
+            type="button"
+            class="sm:hidden w-full flex items-center justify-between mb-3"
+            aria-expanded="false"
+            data-footer-col-toggle
+            aria-controls={`footer-col-${i}`}
+          >
+            <span class="text-[15px] font-semibold text-mist/70">{col.title}</span>
+            <svg class="footer-col-chevron text-mist/30 transition-transform duration-200" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <ul
+            id={`footer-col-${i}`}
+            class="hidden sm:block space-y-2.5"
+            aria-label={`${col.title} links`}
+          >
+            {col.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-[14px] text-mist/50 hover:text-mist transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="container pb-8 pt-6 border-t border-mist/10">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex flex-wrap items-center gap-4 text-[13px] text-mist/35">
+        <span>&copy; 2026 Threadmark</span>
+        <a href="/privacy" class="hover:text-mist/60 transition-colors">Privacy</a>
+        <a href="#" class="hover:text-mist/60 transition-colors">Terms</a>
+      </div>
+      <div class="flex items-center gap-3 text-[13px] text-mist/35">
+        <Icon name="logos:slack-icon" size={16} aria-hidden="true" />
+        <Icon name="logos:microsoft-teams" size={16} aria-hidden="true" />
+        <span>Works with Slack and Microsoft Teams</span>
+        <span
+          class="text-[11px] font-bold border border-mist/20 px-2 py-0.5 rounded text-mist/35"
+          aria-label="SOC 2 Type II certified"
+        >
+          SOC 2
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile footer column toggles
+  document.querySelectorAll<HTMLButtonElement>('[data-footer-col-toggle]').forEach((btn) => {
+    const targetId = btn.getAttribute('aria-controls');
+    const list = targetId ? document.getElementById(targetId) : null;
+    const chevron = btn.querySelector<SVGElement>('.footer-col-chevron');
+
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      if (list) list.classList.toggle('hidden', open);
+      if (chevron) chevron.style.transform = open ? '' : 'rotate(90deg)';
+    });
+  });
+
+  // Footer mini email form
+  const footerForm = document.getElementById('footer-form') as HTMLFormElement | null;
+  const footerMsg = document.getElementById('footer-form-msg') as HTMLElement | null;
+
+  footerForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const emailInput = footerForm.querySelector<HTMLInputElement>('[name="footer-email"]');
+    const email = emailInput?.value.trim() ?? '';
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (footerMsg) footerMsg.textContent = 'Please enter a valid email address.';
+      return;
+    }
+
+    const submitBtn = footerForm.querySelector<HTMLButtonElement>('[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = '…';
+    }
+
+    await new Promise((r) => setTimeout(r, 800));
+
+    if (footerMsg) footerMsg.textContent = "You're on the list. We'll email you within a week.";
+    if (emailInput) emailInput.value = '';
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Join';
+    }
+  });
+</script>

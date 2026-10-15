@@ -1,16 +1,82 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/sections/Nav.astro';
+import Hero from '../components/sections/Hero.astro';
+import LiveCaptureDemo from '../components/sections/LiveCaptureDemo.astro';
+import TheProblem from '../components/sections/TheProblem.astro';
+import SocialProof from '../components/sections/SocialProof.astro';
+import ChooseYourPath from '../components/sections/ChooseYourPath.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import WhatItCatches from '../components/sections/WhatItCatches.astro';
+import PrivateChats from '../components/sections/PrivateChats.astro';
+import Benchmarks from '../components/sections/Benchmarks.astro';
+import PrivacyTrust from '../components/sections/PrivacyTrust.astro';
+import KnownLimitations from '../components/sections/KnownLimitations.astro';
+import KnowledgeBase from '../components/sections/KnowledgeBase.astro';
+import Integrations from '../components/sections/Integrations.astro';
+import Pricing from '../components/sections/Pricing.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import EarlyAccess from '../components/sections/EarlyAccess.astro';
+import Footer from '../components/sections/Footer.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="Threadmark — Your team already wrote the docs. They're in the chat."
+  description="Threadmark catches decisions, fixes and answers as they happen in Slack and Teams, turns them into a searchable knowledge base, and never reads what it isn't allowed to."
+>
+  <!-- 1. Navigation -->
+  <Nav />
+
+  <main id="main-content">
+    <!-- 2. Hero -->
+    <Hero />
+
+    <!-- 3. Live Capture Demo -->
+    <LiveCaptureDemo />
+
+    <!-- 4. The Problem -->
+    <TheProblem />
+
+    <!-- 5. Social Proof -->
+    <SocialProof />
+
+    <!-- 6. Choose Your Path -->
+    <ChooseYourPath />
+
+    <!-- 7. How It Works -->
+    <HowItWorks />
+
+    <!-- 8. What It Catches -->
+    <WhatItCatches />
+
+    <!-- 9. Private Chats -->
+    <PrivateChats />
+
+    <!-- 10. Benchmarks -->
+    <Benchmarks />
+
+    <!-- 11. Privacy & Trust -->
+    <PrivacyTrust />
+
+    <!-- 12. Known Limitations -->
+    <KnownLimitations />
+
+    <!-- 13. Knowledge Base (dark) -->
+    <KnowledgeBase />
+
+    <!-- 14. Integrations + Quickstart -->
+    <Integrations />
+
+    <!-- 15. Roadmap + Pricing -->
+    <Pricing />
+
+    <!-- 16. FAQ -->
+    <FAQ />
+
+    <!-- 16b. Early Access -->
+    <EarlyAccess />
+  </main>
+
+  <!-- Footer -->
+  <Footer />
+</Layout>

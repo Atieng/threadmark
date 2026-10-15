@@ -1,0 +1,83 @@
+{
+  "tiers": [
+    {
+      "id": "team",
+      "name": "Team",
+      "tagline": "Start capturing knowledge today.",
+      "monthlyPrice": 0,
+      "yearlyPrice": 0,
+      "priceNote": "up to 15 people",
+      "highlight": false,
+      "badge": null,
+      "features": [
+        "Up to 15 people",
+        "5 channels",
+        "90 days knowledge history",
+        "Decision and fix capture",
+        "Searchable knowledge base",
+        "Slack and Teams"
+      ],
+      "cta": "Add to Slack",
+      "ctaStyle": "outline"
+    },
+    {
+      "id": "business",
+      "name": "Business",
+      "tagline": "For teams that can't afford to lose context.",
+      "monthlyPrice": 8,
+      "yearlyPrice": 6.4,
+      "priceNote": "per person / month",
+      "highlight": true,
+      "badge": "Most teams start here",
+      "features": [
+        "Everything in Team",
+        "Unlimited channels",
+        "Private-chat summaries",
+        "Replaced-entry tracking",
+        "Notion and Confluence sync",
+        "Priority support"
+      ],
+      "cta": "Start free trial",
+      "ctaStyle": "primary"
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "tagline": "Compliance-ready, on your infrastructure.",
+      "monthlyPrice": null,
+      "yearlyPrice": null,
+      "priceNote": "talk to us",
+      "highlight": false,
+      "badge": null,
+      "features": [
+        "Everything in Business",
+        "Own cloud region",
+        "SSO / SCIM provisioning",
+        "Full audit logs",
+        "Custom retention controls",
+        "Dedicated onboarding"
+      ],
+      "cta": "Book a call",
+      "ctaStyle": "outline"
+    }
+  ],
+  "roadmap": {
+    "available": [
+      "Slack and Microsoft Teams",
+      "Decision and fix capture",
+      "Answer and ownership capture",
+      "Searchable knowledge base",
+      "Private-chat summaries",
+      "Notion and Confluence sync",
+      "Replaced-entry tracking"
+    ],
+    "coming": [
+      "Meeting transcripts",
+      "Notion two-way sync",
+      "Mobile app",
+      "Public API",
+      "Google Drive integration",
+      "Jira ticket linkage"
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+---
+// Bot DM asking to publish a redacted version of a private conversation.
+---
+
+<div class="rounded-[var(--radius-card)] bg-white shadow-warm overflow-hidden" style="font-size: 13px;">
+  <!-- DM header -->
+  <div class="flex items-center gap-2 px-4 py-2.5 border-b border-fog">
+    <div class="w-5 h-5 rounded flex items-center justify-center bg-ink flex-shrink-0" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 40 40">
+        <path d="M9 5h18a7 7 0 0 1 7 7v10a7 7 0 0 1-7 7H17l-8 6v-6a7 7 0 0 1-7-7V12a7 7 0 0 1 7-7z" fill="#FBF6F0"/>
+      </svg>
+    </div>
+    <span class="font-bold text-ink/50">Threadmark</span>
+    <span class="text-[10px] font-bold bg-moss/15 text-moss px-1.5 py-0.5 rounded-[var(--radius-btn)]">App</span>
+  </div>
+
+  <!-- Bot message -->
+  <div class="px-4 pt-4 pb-3">
+    <div class="flex gap-2 items-start mb-4">
+      <div class="w-7 h-7 rounded flex items-center justify-center bg-ink flex-shrink-0 mt-0.5" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 40 40">
+          <path d="M9 5h18a7 7 0 0 1 7 7v10a7 7 0 0 1-7 7H17l-8 6v-6a7 7 0 0 1-7-7V12a7 7 0 0 1 7-7z" fill="#FBF6F0"/>
+          <path d="M7 15.5 L38 13 L38.6 20.5 L7.6 23 Z" fill="#F7C948"/>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <div class="flex items-baseline gap-1.5 mb-1.5">
+          <span class="font-bold text-ink text-[13px]">Threadmark</span>
+          <span class="text-[11px] text-ink/35">Today at 2:23 PM</span>
+        </div>
+        <div class="bg-fog/40 rounded-[var(--radius-sm)] p-3 text-[12px] text-ink/80 leading-[1.5]">
+          <p class="mb-1">This message looks like a decision your team should know about.</p>
+          <p class="font-medium text-ink/60 text-[11px] italic mb-2">"OK, let's go with 3 retries with backoff, then send to manual review."</p>
+          <p>Publish a redacted summary to <span class="font-bold text-ink">#payments-eng</span>?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="flex gap-2 ml-9">
+      <button
+        type="button"
+        class="px-3.5 py-1.5 bg-moss text-white text-[12px] font-bold rounded-[var(--radius-btn)] hover:brightness-105 active:scale-95 transition-all"
+        aria-label="Publish redacted summary"
+      >
+        Publish summary
+      </button>
+      <button
+        type="button"
+        class="px-3.5 py-1.5 bg-transparent text-ink/60 text-[12px] font-medium rounded-[var(--radius-btn)] border border-fog hover:bg-fog/50 transition-all"
+        aria-label="Keep this conversation private"
+      >
+        Keep private
+      </button>
+    </div>
+  </div>
+</div>

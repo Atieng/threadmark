@@ -1,0 +1,145 @@
+---
+import faqData from '../../content/faq.json';
+---
+
+<section
+  id="faq"
+  class="py-20 md:py-28"
+  aria-labelledby="faq-heading"
+  data-animated-section
+>
+  <div class="container">
+    <div class="mb-12">
+      <h2 id="faq-heading" data-reveal="text" class="text-ink mb-4" style="max-width: 22ch;">
+        Questions people actually ask.
+      </h2>
+    </div>
+
+    <div class="max-w-2xl">
+      <dl id="faq-list" class="space-y-0 divide-y divide-fog">
+        {faqData.map((item, i) => (
+          <div class="faq-item" data-slide="list">
+            <dt>
+              <button
+                id={`faq-btn-${i}`}
+                type="button"
+                aria-expanded="false"
+                aria-controls={`faq-body-${i}`}
+                class="faq-trigger w-full flex items-center justify-between gap-6 py-5 text-left"
+              >
+                <span class="text-[17px] font-bold text-ink pr-2">{item.q}</span>
+                <svg
+                  class="faq-chevron flex-shrink-0 text-ink/35 transition-transform duration-250"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </dt>
+            <dd
+              id={`faq-body-${i}`}
+              role="region"
+              aria-labelledby={`faq-btn-${i}`}
+              class="faq-body overflow-hidden"
+              style="max-height: 0;"
+            >
+              <p class="text-[16px] text-ink/65 leading-[1.6] pb-5" style="max-width: 58ch;">
+                {item.a}
+              </p>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-body {
+    transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.3s ease;
+    opacity: 0;
+  }
+  .faq-body.is-open {
+    opacity: 1;
+  }
+  .faq-trigger:hover .faq-chevron {
+    color: var(--color-ink);
+  }
+  .faq-trigger:focus-visible {
+    outline: 2px solid var(--color-moss);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+</style>
+
+<script>
+  const items = document.querySelectorAll('.faq-item');
+
+  function closeAll(): void {
+    items.forEach((item) => {
+      const body = item.querySelector<HTMLElement>('.faq-body');
+      const btn = item.querySelector<HTMLButtonElement>('.faq-trigger');
+      const chevron = item.querySelector<SVGElement>('.faq-chevron');
+      if (body) {
+        body.style.maxHeight = '0';
+        body.classList.remove('is-open');
+      }
+      btn?.setAttribute('aria-expanded', 'false');
+      if (chevron) chevron.style.transform = '';
+    });
+  }
+
+  items.forEach((item, index) => {
+    const btn = item.querySelector<HTMLButtonElement>('.faq-trigger');
+    const body = item.querySelector<HTMLElement>('.faq-body');
+    const chevron = item.querySelector<SVGElement>('.faq-chevron');
+
+    btn?.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+      if (!isOpen) {
+        closeAll();
+        btn.setAttribute('aria-expanded', 'true');
+        if (body) {
+          // Measure content height
+          body.style.maxHeight = 'none';
+          const h = body.scrollHeight;
+          body.style.maxHeight = '0';
+          // Trigger reflow
+          void body.offsetHeight;
+          body.style.maxHeight = `${h}px`;
+          body.classList.add('is-open');
+        }
+        if (chevron) chevron.style.transform = 'rotate(90deg)';
+      } else {
+        closeAll();
+      }
+    });
+
+    btn?.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = items[Math.min(index + 1, items.length - 1)];
+        next?.querySelector<HTMLButtonElement>('.faq-trigger')?.focus();
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = items[Math.max(index - 1, 0)];
+        prev?.querySelector<HTMLButtonElement>('.faq-trigger')?.focus();
+      }
+      if (e.key === 'Home') {
+        e.preventDefault();
+        items[0]?.querySelector<HTMLButtonElement>('.faq-trigger')?.focus();
+      }
+      if (e.key === 'End') {
+        e.preventDefault();
+        items[items.length - 1]?.querySelector<HTMLButtonElement>('.faq-trigger')?.focus();
+      }
+    });
+  });
+</script>

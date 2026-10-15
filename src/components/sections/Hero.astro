@@ -1,0 +1,101 @@
+---
+import Button from '../ui/Button.astro';
+import AppMockup from '../mockups/AppMockup.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<section
+  class="hero relative pt-28 pb-0 overflow-hidden"
+  aria-labelledby="hero-headline"
+>
+  <!-- Peach glow: soft radial, never white, capped at 0.35 by GSAP -->
+  <div
+    data-hero="glow"
+    class="absolute pointer-events-none"
+    style="inset: 0; background: radial-gradient(ellipse 70% 52% at 50% 35%, #FFD3B8 0%, #FFE9DA 42%, transparent 65%); opacity: 0;"
+    aria-hidden="true"
+  ></div>
+
+  <div class="container relative">
+    <!-- New: pill -->
+    <div data-hero="sub" class="mb-6">
+      <span class="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-btn)] border border-fog bg-white text-[13px] font-bold text-ink/70">
+        <span class="w-2 h-2 rounded-full bg-moss flex-shrink-0" aria-hidden="true"></span>
+        New: knowledge capture for private channels
+      </span>
+    </div>
+
+    <!-- Headline -->
+    <h1
+      id="hero-headline"
+      data-hero="headline"
+      class="text-ink mb-6"
+      style="max-width: 18ch;"
+    >
+      Your team already wrote the docs.<br />They're in the chat.
+    </h1>
+
+    <!-- Subheadline -->
+    <p
+      data-hero="sub"
+      data-role="hero-sub"
+      class="text-[18px] text-ink/70 mb-8 leading-[1.5]"
+      style="max-width: 52ch;"
+    >
+      Threadmark catches decisions, fixes and answers as they happen in Slack and Teams,
+      turns them into a searchable knowledge base, and never reads what it isn't allowed to.
+    </p>
+
+    <!-- Buttons -->
+    <div data-hero="btns" class="flex flex-wrap items-center gap-3 mb-0">
+      <a
+        href="#early-access"
+        class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-ember text-ink text-[15px] font-bold rounded-[var(--radius-btn)] hover:brightness-105 hover:scale-[1.02] active:scale-[0.97] transition-all duration-[var(--dur-fast)] shadow-sm"
+      >
+        <Icon name="logos:slack-icon" size={18} aria-hidden="true" />
+        Add to Slack
+      </a>
+      <a
+        href="#how-it-works"
+        class="inline-flex items-center gap-2 px-7 py-3.5 bg-transparent text-ink text-[15px] font-bold rounded-[var(--radius-btn)] border-2 border-ink hover:bg-ink hover:text-mist transition-all duration-[var(--dur-fast)]"
+      >
+        See how it works
+      </a>
+    </div>
+
+    <!-- Trust line -->
+    <p data-hero="trust" class="flex items-center gap-2.5 flex-wrap text-[14px] text-ink/65 mt-4 mb-12">
+      <Icon name="logos:slack-icon" size={16} aria-hidden="true" />
+      <Icon name="logos:microsoft-teams" size={16} aria-hidden="true" />
+      Works with Slack and Microsoft Teams.&ensp;Free for teams up to 15.
+    </p>
+
+    <!-- App Mockup -->
+    <div
+      data-hero="mockup"
+      class="relative"
+      style="opacity: 0;"
+    >
+      <AppMockup />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { playHero, initNavScroll, drawLogoStroke, initLenis, initRevealAll } from '../../scripts/motion.ts';
+  import { initRole } from '../../scripts/role.ts';
+
+  // Boot sequence
+  document.addEventListener('DOMContentLoaded', () => {
+    // Set mockup visible before animation so it's accessible
+    const mockup = document.querySelector<HTMLElement>('[data-hero="mockup"]');
+    if (mockup) mockup.style.opacity = '';
+
+    initLenis();
+    initNavScroll();
+    drawLogoStroke();
+    playHero();
+    initRevealAll();
+    initRole();
+  });
+</script>

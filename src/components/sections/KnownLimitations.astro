@@ -1,0 +1,79 @@
+---
+const limitations = [
+  {
+    icon: 'mic',
+    title: 'Decisions made on calls',
+    body: 'If your team decides something on a video call, Threadmark won\'t catch it — there\'s nothing in the chat to read. Meeting transcript support is coming.',
+    badge: 'Coming soon',
+  },
+  {
+    icon: 'help-circle',
+    title: 'Sarcasm can look like a decision',
+    body: 'A message like "let\'s definitely break production again" could trigger a capture. Humans confirm before anything is published, so sarcasm stays out — but it generates noise.',
+    badge: null,
+  },
+  {
+    icon: 'image',
+    title: 'Images in threads aren\'t read',
+    body: 'Diagrams, screenshots, and mockups shared in a thread aren\'t processed yet. If the key detail is in an image, Threadmark won\'t capture it.',
+    badge: 'Coming soon',
+  },
+  {
+    icon: 'globe',
+    title: 'Non-English detection is less accurate',
+    body: 'Capture works best in English. Other languages are detected but with lower confidence, meaning more false positives and some missed decisions in mixed-language channels.',
+    badge: null,
+  },
+];
+
+const iconPaths: Record<string, string> = {
+  mic: 'M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8',
+  'help-circle': 'M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01',
+  image: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m4 0h4a2 2 0 0 1 2 2v4M16 3l3 3-3 3M8 12.5l3 3 4-5',
+  globe: 'M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z',
+};
+---
+
+<section
+  id="limitations"
+  class="py-20 md:py-28 bg-blush"
+  aria-labelledby="limits-heading"
+  data-animated-section
+>
+  <div class="container">
+    <div class="mb-12">
+      <h2 id="limits-heading" data-reveal="text" class="text-ink mb-4" style="max-width: 26ch;">
+        Where Threadmark still struggles.
+      </h2>
+      <p class="text-[17px] text-ink/60" style="max-width: 52ch;">
+        We'd rather tell you now than have you find out later. These are real gaps, not buried in the footnotes.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-5 lg:gap-6">
+      {limitations.map((item) => (
+        <div
+          data-slide="list"
+          class="flex gap-4 p-6 rounded-[var(--radius-card)] bg-white border border-fog shadow-warm-sm"
+        >
+          <div class="flex-shrink-0 w-9 h-9 rounded-[var(--radius-sm)] bg-ink/5 flex items-center justify-center mt-0.5">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" class="text-ink/50" aria-hidden="true">
+              <path d={iconPaths[item.icon]} stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <h3 class="text-ink">{item.title}</h3>
+              {item.badge && (
+                <span class="text-[11px] font-bold text-ink/45 border border-fog px-2 py-0.5 rounded-[var(--radius-btn)]">
+                  {item.badge}
+                </span>
+              )}
+            </div>
+            <p class="text-[15px] text-ink/65 leading-[1.55]">{item.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

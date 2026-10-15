@@ -1,0 +1,228 @@
+---
+import pricingData from '../../content/pricing.json';
+const { tiers, roadmap } = pricingData;
+---
+
+<section
+  id="pricing"
+  class="py-20 md:py-28 bg-blush"
+  style="overflow-x: clip"
+  aria-labelledby="pricing-heading"
+  data-animated-section
+>
+  <div class="container">
+
+    <!-- Roadmap -->
+    <div class="mb-16 md:mb-20">
+      <h2 id="pricing-heading" data-reveal="text" class="text-ink mb-4" style="max-width: 26ch;">
+        Simple pricing. Clear roadmap.
+      </h2>
+      <p class="text-[17px] text-ink/60 mb-10" style="max-width: 50ch;">
+        Everything that's live today, and what's on the way. No feature-gating surprises.
+      </p>
+
+      <div class="grid sm:grid-cols-2 gap-6 max-w-2xl">
+        <!-- Available now -->
+        <div class="p-6 rounded-[var(--radius-card)] bg-white border border-fog shadow-warm-sm" data-slide="left">
+          <h3 class="text-ink mb-4 flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-moss" aria-hidden="true">
+              <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            Available now
+          </h3>
+          <ul class="space-y-2.5" aria-label="Currently available features">
+            {roadmap.available.map((item) => (
+              <li class="flex items-center gap-2.5 text-[15px] text-ink/70">
+                <span class="w-1.5 h-1.5 rounded-full bg-moss flex-shrink-0" aria-hidden="true"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Coming soon -->
+        <div class="p-6 rounded-[var(--radius-card)] bg-white border border-fog shadow-warm-sm" data-slide="right">
+          <h3 class="text-ink mb-4 flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-ink/35" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+            </svg>
+            Coming soon
+          </h3>
+          <ul class="space-y-2.5" aria-label="Upcoming features">
+            {roadmap.coming.map((item) => (
+              <li class="flex items-center gap-2.5 text-[15px] text-ink/50">
+                <span class="w-1.5 h-1.5 rounded-full bg-fog flex-shrink-0" aria-hidden="true"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing toggle -->
+    <div class="mb-10 flex items-center gap-4">
+      <div
+        role="group"
+        aria-label="Billing period"
+        class="flex items-center rounded-[var(--radius-btn)] border border-fog bg-white p-1 shadow-warm-sm"
+      >
+        <button
+          id="toggle-monthly"
+          type="button"
+          aria-pressed="true"
+          class="pricing-toggle-btn px-5 py-2 rounded-[var(--radius-btn)] text-[14px] font-bold transition-all"
+        >
+          Monthly
+        </button>
+        <button
+          id="toggle-yearly"
+          type="button"
+          aria-pressed="false"
+          class="pricing-toggle-btn px-5 py-2 rounded-[var(--radius-btn)] text-[14px] font-bold transition-all flex items-center gap-2"
+        >
+          Yearly
+          <span class="text-[11px] font-bold bg-moss/15 text-moss px-2 py-0.5 rounded-[var(--radius-btn)]">-20%</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Pricing tiers -->
+    <div class="grid md:grid-cols-3 gap-5 lg:gap-6">
+      {tiers.map((tier, i) => (
+        <div
+          data-slide={i === 0 ? 'left' : i === 2 ? 'right' : 'up'}
+          class={`relative flex flex-col p-6 rounded-[var(--radius-card)] border-2 ${
+            tier.highlight
+              ? 'border-ink bg-ink text-mist shadow-warm'
+              : 'border-fog bg-white shadow-warm-sm'
+          }`}
+        >
+          {tier.badge && (
+            <div class="absolute -top-3 left-6">
+              <span class="text-[12px] font-bold bg-ember text-ink px-3 py-1 rounded-[var(--radius-btn)] shadow-warm-sm">
+                {tier.badge}
+              </span>
+            </div>
+          )}
+
+          <div class="mb-5">
+            <h3 class={tier.highlight ? 'text-mist' : 'text-ink'}>{tier.name}</h3>
+            <p class={`text-[14px] mt-1 ${tier.highlight ? 'text-mist/60' : 'text-ink/55'}`}>
+              {tier.tagline}
+            </p>
+          </div>
+
+          <!-- Price -->
+          <div class="mb-6">
+            {tier.monthlyPrice !== null ? (
+              <div class="flex items-baseline gap-1">
+                <span class={`text-[15px] font-bold ${tier.highlight ? 'text-mist/70' : 'text-ink/50'}`}>$</span>
+                <span
+                  data-price
+                  data-monthly={String(tier.monthlyPrice)}
+                  data-yearly={String(tier.yearlyPrice)}
+                  class={`text-[44px] font-extrabold leading-none tracking-[-0.03em] ${tier.highlight ? 'text-mist' : 'text-ink'}`}
+                >
+                  {tier.monthlyPrice === 0 ? '0' : tier.monthlyPrice?.toFixed(0)}
+                </span>
+                <span class={`text-[14px] ${tier.highlight ? 'text-mist/55' : 'text-ink/45'}`}>
+                  / {tier.priceNote}
+                </span>
+              </div>
+            ) : (
+              <div class="text-[32px] font-extrabold leading-none tracking-[-0.03em] text-ink/70">
+                Custom
+              </div>
+            )}
+          </div>
+
+          <!-- Features -->
+          <ul class="space-y-2.5 mb-8 flex-1" aria-label={`${tier.name} features`}>
+            {tier.features.map((feature) => (
+              <li class={`flex items-center gap-2.5 text-[14px] ${tier.highlight ? 'text-mist/75' : 'text-ink/65'}`}>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" class={tier.highlight ? 'text-moss' : 'text-moss'}>
+                  <path d="M2 7l3.5 3.5L12 3.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <!-- CTA -->
+          <a
+            href="#early-access"
+            class={`inline-flex items-center justify-center w-full px-5 py-3.5 text-[15px] font-bold rounded-[var(--radius-btn)] transition-all duration-[var(--dur-fast)] ${
+              tier.ctaStyle === 'primary'
+                ? 'bg-ember text-ink hover:brightness-105 hover:scale-[1.01]'
+                : tier.highlight
+                  ? 'bg-mist text-ink hover:bg-white'
+                  : 'bg-transparent text-ink border-2 border-ink hover:bg-ink hover:text-mist'
+            }`}
+          >
+            {tier.cta}
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing-toggle-btn {
+    color: var(--color-ink);
+    opacity: 0.5;
+    background: transparent;
+  }
+  .pricing-toggle-btn[aria-pressed="true"] {
+    background: var(--color-ink);
+    color: var(--color-mist);
+    opacity: 1;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  let isYearly = false;
+
+  const monthlyBtn = document.getElementById('toggle-monthly') as HTMLButtonElement | null;
+  const yearlyBtn = document.getElementById('toggle-yearly') as HTMLButtonElement | null;
+  const priceEls = document.querySelectorAll<HTMLElement>('[data-price]');
+
+  function togglePricing(yearly: boolean): void {
+    if (isYearly === yearly) return;
+    isYearly = yearly;
+
+    monthlyBtn?.setAttribute('aria-pressed', String(!yearly));
+    yearlyBtn?.setAttribute('aria-pressed', String(yearly));
+
+    priceEls.forEach((el) => {
+      const monthly = parseFloat(el.dataset.monthly ?? '0');
+      const yearlyVal = parseFloat(el.dataset.yearly ?? '0');
+      const target = yearly ? yearlyVal : monthly;
+      const currentVal = { v: parseFloat(el.textContent ?? '0') };
+
+      if (monthly === 0) {
+        el.textContent = '0';
+        return;
+      }
+
+      gsap.to(currentVal, {
+        v: target,
+        duration: 0.35,
+        ease: 'power2.out',
+        onUpdate() {
+          el.textContent = Number.isInteger(target)
+            ? Math.round(currentVal.v).toString()
+            : currentVal.v.toFixed(2);
+        },
+      });
+    });
+  }
+
+  monthlyBtn?.addEventListener('click', () => togglePricing(false));
+  yearlyBtn?.addEventListener('click', () => togglePricing(true));
+</script>

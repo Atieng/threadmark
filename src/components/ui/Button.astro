@@ -1,0 +1,63 @@
+---
+interface Props {
+  variant?: 'primary' | 'outline' | 'ghost';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  id?: string;
+  disabled?: boolean;
+  'aria-label'?: string;
+}
+
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  size = 'md',
+  class: className = '',
+  id,
+  disabled,
+  'aria-label': ariaLabel,
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center font-sans font-bold leading-none select-none cursor-pointer transition-all duration-[var(--dur-fast)] ease-[var(--ease-enter)] rounded-[var(--radius-btn)] active:scale-[0.97] focus-visible:outline-[2px] focus-visible:outline-moss focus-visible:outline-offset-2';
+
+const sizes: Record<string, string> = {
+  sm: 'px-4 py-2 text-[14px] gap-1.5',
+  md: 'px-6 py-3 text-[15px] gap-2',
+  lg: 'px-8 py-4 text-[16px] gap-2.5',
+};
+
+const variants: Record<string, string> = {
+  primary:
+    'bg-ember text-ink hover:brightness-105 hover:scale-[1.02] shadow-sm',
+  outline:
+    'bg-transparent text-ink border-2 border-ink hover:bg-ink hover:text-mist',
+  ghost:
+    'bg-transparent text-moss hover:bg-fog/50',
+};
+
+const classes = [base, sizes[size], variants[variant], className]
+  .filter(Boolean)
+  .join(' ');
+---
+
+{
+  href ? (
+    <a href={href} class={classes} id={id} aria-label={ariaLabel}>
+      <slot />
+    </a>
+  ) : (
+    <button
+      type={type}
+      class={classes}
+      id={id}
+      disabled={disabled}
+      aria-label={ariaLabel}
+    >
+      <slot />
+    </button>
+  )
+}

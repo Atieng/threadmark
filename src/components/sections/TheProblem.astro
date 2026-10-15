@@ -1,0 +1,63 @@
+---
+const problems = [
+  {
+    quote: '"Why do we retry only three times? Does anyone remember?"',
+    label: 'Decisions without reasons',
+    body: 'A choice was made, but the reasoning never made it to the wiki. Six months later, no one can reconstruct it.',
+  },
+  {
+    quote: '"Sorry if this was asked before, but how do we rotate the API keys?"',
+    label: 'The same question, every quarter',
+    body: "The answer exists. It's in a thread from eight months ago that nobody can find. So the team answers it again.",
+  },
+  {
+    quote: '"We sorted that out in a DM months ago."',
+    label: 'Knowledge locked in private chats',
+    body: 'Decisions made in private channels and DMs stay there forever. When the person who made them leaves, so does the context.',
+  },
+];
+---
+
+<section
+  class="the-problem py-20 md:py-28"
+  aria-labelledby="problem-heading"
+  id="problem"
+>
+  <div class="container">
+    <div class="mb-16 max-w-[44ch]">
+      <h2 id="problem-heading" data-reveal="text" class="text-ink mb-4">
+        The wiki is where knowledge goes to die.<br />
+        Chat is where it's made.
+      </h2>
+    </div>
+
+    <!-- Three columns separated by rules, not cards -->
+    <div class="grid md:grid-cols-3 gap-0">
+      {problems.map((p, i) => (
+        <div
+          data-reveal="card"
+          class={`py-8 ${i > 0 ? 'md:pl-10 md:border-l border-fog md:pt-0' : ''} ${i === 0 ? '' : ''}`}
+          style={i > 0 ? undefined : undefined}
+        >
+          <!-- Rule above first item on mobile -->
+          {i > 0 && (
+            <div class="md:hidden border-t border-fog mb-8"></div>
+          )}
+
+          <!-- Italic serif quote -->
+          <blockquote class="mb-6">
+            <p
+              class="font-serif text-[19px] md:text-[21px] leading-[1.45] text-ink italic m-0"
+              data-highlight
+            >
+              {p.quote}
+            </p>
+          </blockquote>
+
+          <h3 class="text-[15px] font-extrabold text-ink mb-2">{p.label}</h3>
+          <p class="text-[15px] text-ink/60 leading-[1.55] m-0">{p.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

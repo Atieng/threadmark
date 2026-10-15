@@ -1,0 +1,59 @@
+---
+interface Props {
+  label: string;
+  checked?: boolean;
+  locked?: boolean;
+  id: string;
+  class?: string;
+}
+
+const {
+  label,
+  checked = true,
+  locked = false,
+  id,
+  class: className = '',
+} = Astro.props;
+---
+
+<label
+  class={`flex items-center justify-between gap-3 cursor-pointer py-2 ${locked ? 'opacity-75 cursor-not-allowed' : ''} ${className}`}
+  for={id}
+>
+  <span class="text-[14px] text-ink/80 flex items-center gap-2">
+    {locked && (
+      <!-- Lock icon -->
+      <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true">
+        <rect x="1" y="6" width="10" height="8" rx="2" fill="var(--color-fog)" stroke="var(--color-ink)" stroke-width="1.5"/>
+        <path d="M3 6V4a3 3 0 0 1 6 0v2" stroke="var(--color-ink)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    )}
+    {label}
+  </span>
+
+  <div class="relative flex-shrink-0">
+    <input
+      type="checkbox"
+      id={id}
+      class="sr-only peer"
+      checked={checked}
+      disabled={locked}
+    />
+    <div
+      class={`
+        w-10 h-6 rounded-full border-2 transition-colors duration-[var(--dur-fast)]
+        ${checked ? 'bg-moss border-moss' : 'bg-fog border-fog'}
+        peer-checked:bg-moss peer-checked:border-moss
+        peer-focus-visible:ring-2 peer-focus-visible:ring-moss peer-focus-visible:ring-offset-2
+      `}
+    ></div>
+    <div
+      class={`
+        absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white shadow-sm
+        transition-transform duration-[var(--dur-fast)]
+        ${checked ? 'translate-x-[18px]' : 'translate-x-[3px]'}
+        peer-checked:translate-x-[18px]
+      `}
+    ></div>
+  </div>
+</label>

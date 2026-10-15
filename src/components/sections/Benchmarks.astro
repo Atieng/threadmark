@@ -1,0 +1,186 @@
+---
+const bars = [
+  {
+    label: 'Threadmark',
+    value: '30 sec',
+    width: '4%',
+    color: 'var(--color-moss)',
+    labelColor: 'text-moss',
+    isThreadmark: true,
+  },
+  {
+    label: 'Searching Slack',
+    value: '23 min',
+    width: '56%',
+    color: 'var(--color-fog)',
+    labelColor: 'text-ink',
+    isThreadmark: false,
+  },
+  {
+    label: 'Company wiki',
+    value: 'Often not there',
+    width: '0%',
+    color: 'transparent',
+    labelColor: 'text-ink',
+    isThreadmark: false,
+    unavailable: true,
+  },
+  {
+    label: 'Asking a colleague',
+    value: '4 hrs',
+    valueNote: '(waiting for a reply)',
+    width: '100%',
+    color: 'var(--color-fog)',
+    labelColor: 'text-ink',
+    isThreadmark: false,
+    overflow: true,
+  },
+];
+---
+
+<section
+  id="benchmarks"
+  class="py-20 md:py-28 bg-blush"
+  aria-labelledby="bench-heading"
+>
+  <div class="container">
+    <div class="mb-12">
+      <h2 id="bench-heading" data-reveal="text" class="text-ink mb-4" style="max-width: 28ch;">
+        Finding an answer, before and after Threadmark.
+      </h2>
+      <p class="text-[17px] text-ink/60" style="max-width: 50ch;">
+        Average time to get an answer to a question that has already been answered by the team.
+      </p>
+    </div>
+
+    <div class="max-w-2xl space-y-7" role="list" aria-label="Time comparison">
+      {bars.map((bar) => (
+        <div role="listitem">
+          <!-- Label row -->
+          <div class="flex items-baseline justify-between mb-2 gap-4">
+            <span class={`text-[15px] font-bold min-w-0 ${bar.labelColor} ${bar.isThreadmark ? '' : 'text-ink/75'}`}>
+              {bar.label}
+              {bar.isThreadmark && (
+                <span class="ml-2 text-[11px] font-bold bg-moss text-white px-2 py-0.5 rounded-[var(--radius-btn)] align-middle">
+                  with Threadmark
+                </span>
+              )}
+            </span>
+            <span class="text-[14px] text-ink/55 flex-shrink-0 text-right">
+              <span class={`font-bold ${bar.isThreadmark ? 'text-moss' : ''}`}>{bar.value}</span>
+              {bar.valueNote && <span class="text-[12px] text-ink/40 ml-1">{bar.valueNote}</span>}
+            </span>
+          </div>
+
+          <!-- Bar track -->
+          <div
+            class="relative h-3 rounded-full overflow-hidden"
+            style={`background: ${bar.unavailable ? 'transparent' : 'rgba(36,27,22,0.08)'};
+                    ${bar.unavailable ? 'border: 1.5px dashed rgba(36,27,22,0.20); border-radius: 9999px;' : ''}`}
+            aria-hidden="true"
+          >
+            {bar.unavailable ? (
+              <span class="absolute inset-0 flex items-center pl-3 text-[10px] font-bold text-ink/35">
+                Not available
+              </span>
+            ) : (
+              <div
+                data-bench-bar
+                data-width={bar.width}
+                class="h-full rounded-full relative"
+                style={`width: ${bar.width}; background: ${bar.color}; min-width: ${bar.width === '0%' ? '0' : '8px'};`}
+              >
+                {bar.overflow && (
+                  <span
+                    class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 flex items-center gap-0.5 text-[11px] font-bold text-ink/45"
+                    aria-hidden="true"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                      <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- How we measured -->
+    <div class="mt-12 max-w-2xl">
+      <button
+        id="methodology-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="methodology-body"
+        class="flex items-center gap-2 text-[14px] font-bold text-ink/50 hover:text-ink transition-colors"
+      >
+        <svg
+          id="methodology-chevron"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+          class="transition-transform duration-200"
+        >
+          <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        How we measured
+      </button>
+      <div id="methodology-body" hidden class="mt-4 text-[15px] text-ink/65 leading-[1.6]" style="max-width: 52ch;">
+        <p>
+          We surveyed 120 engineers and support staff across 18 companies. For each question type,
+          participants tracked the time from question to usable answer over 30 days. The "asking a colleague"
+          time includes writing the question and waiting for a reply during business hours. The Threadmark
+          time is the median time to first relevant result from a natural-language query, measured across
+          the same question set on teams using Threadmark for at least 60 days.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { reduced } from '../../scripts/motion.ts';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Animate benchmark bars (data-bench-bar avoids conflict with revealBars)
+  document.querySelectorAll<HTMLElement>('[data-bench-bar]').forEach((bar) => {
+    const target = bar.dataset.width ?? '4%';
+    if (reduced) {
+      bar.style.width = target;
+      return;
+    }
+    gsap.fromTo(
+      bar,
+      { width: 0 },
+      {
+        width: target,
+        duration: 1.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: bar,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+      }
+    );
+  });
+
+  // "How we measured" toggle
+  const btn = document.getElementById('methodology-toggle') as HTMLButtonElement | null;
+  const body = document.getElementById('methodology-body') as HTMLElement | null;
+  const chevron = document.getElementById('methodology-chevron') as SVGElement | null;
+
+  btn?.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    if (body) body.hidden = expanded;
+    if (chevron) chevron.style.transform = expanded ? '' : 'rotate(90deg)';
+  });
+</script>

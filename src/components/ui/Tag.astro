@@ -1,0 +1,24 @@
+---
+interface Props {
+  type: 'Decision' | 'Fix' | 'Answer' | 'Ownership' | 'Change';
+  class?: string;
+}
+
+const { type, class: className = '' } = Astro.props;
+
+const colours: Record<string, string> = {
+  Decision: 'bg-moss/15 text-moss',
+  Fix:      'bg-ember/15 text-ember',
+  Answer:   'bg-ink/10 text-ink',
+  Ownership:'bg-highlighter/40 text-ink',
+  Change:   'bg-fog text-ink/70',
+};
+
+const colour = colours[type] ?? 'bg-fog text-ink/70';
+---
+
+<span
+  class={`inline-block text-[12px] font-bold font-sans rounded-sm px-2 py-0.5 ${colour} ${className}`}
+>
+  {type}
+</span>

@@ -1,0 +1,204 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const integrations = [
+  { name: 'Slack',        icon: 'logos:slack-icon' },
+  { name: 'Teams',        icon: 'logos:microsoft-teams' },
+  { name: 'Notion',       icon: 'logos:notion-icon' },
+  { name: 'Confluence',   icon: 'logos:confluence' },
+  { name: 'Google Drive', icon: 'logos:google-drive' },
+  { name: 'Jira',         icon: 'logos:jira' },
+];
+
+const terminalLines = [
+  { type: 'prompt', text: '/threadmark connect #payments-eng' },
+  { type: 'response', text: '✓ Connected. Threadmark is watching #payments-eng.' },
+  { type: 'prompt', text: '/threadmark ask why do we retry webhooks 3 times?' },
+  { type: 'thinking', text: '…' },
+  { type: 'answer', text: '"Decided by Hannah K. on 14 Oct: 3 retries with backoff, then manual review. [View thread]"' },
+];
+---
+
+<section
+  id="integrations"
+  class="py-20 md:py-28"
+  aria-labelledby="integrations-heading"
+  data-animated-section
+>
+  <div class="container">
+    <div class="mb-12">
+      <h2 id="integrations-heading" data-reveal="text" class="text-ink mb-4" style="max-width: 26ch;">
+        Works where your team already works.
+      </h2>
+      <p class="text-[17px] text-ink/60" style="max-width: 52ch;">
+        Add Threadmark to Slack or Teams in two minutes. Knowledge syncs to the tools you already use.
+      </p>
+    </div>
+
+    <!-- Integration logos -->
+    <div
+      class="flex flex-wrap items-center gap-4 mb-12"
+      role="list"
+      aria-label="Supported integrations"
+    >
+      {integrations.map((integration) => (
+        <div
+          role="listitem"
+          data-slide="up"
+          class="flex items-center gap-2.5 px-4 py-2.5 rounded-[var(--radius-card)] border border-fog bg-white shadow-warm-sm"
+        >
+          <Icon name={integration.icon} size={24} aria-hidden="true" />
+          <span class="text-[14px] font-bold text-ink/75">{integration.name}</span>
+        </div>
+      ))}
+    </div>
+
+    <!-- Terminal -->
+    <div class="max-w-2xl" data-slide="up">
+      <div class="rounded-[var(--radius-card)] overflow-hidden shadow-warm">
+        <!-- Terminal header -->
+        <div class="flex items-center gap-2 px-4 py-3 bg-ink">
+          <span class="w-3 h-3 rounded-full bg-ember/60" aria-hidden="true"></span>
+          <span class="w-3 h-3 rounded-full bg-highlighter/50" aria-hidden="true"></span>
+          <span class="w-3 h-3 rounded-full bg-moss/60" aria-hidden="true"></span>
+          <span class="flex-1"></span>
+          <button
+            id="terminal-copy"
+            type="button"
+            class="flex items-center gap-1.5 text-[11px] font-bold text-mist/45 hover:text-mist/80 transition-colors"
+            aria-label="Copy terminal commands"
+          >
+            <Icon name="lucide:copy" size={12} stroke-width={1.75} aria-hidden="true" />
+            <span id="copy-label">Copy</span>
+          </button>
+        </div>
+
+        <!-- Terminal body -->
+        <div
+          id="terminal-body"
+          class="bg-ink/95 px-5 py-5 font-mono text-[13px] leading-[1.7] min-h-[180px]"
+          aria-label="Terminal example"
+          role="region"
+        >
+          <noscript>
+            <div class="text-mist/55">$ /threadmark connect #payments-eng</div>
+            <div class="text-moss pl-4">✓ Connected. Threadmark is watching #payments-eng.</div>
+            <div class="text-mist/55 mt-2">$ /threadmark ask why do we retry webhooks 3 times?</div>
+            <div class="text-highlighter pl-4 mt-1">"Decided by Hannah K. on 14 Oct: 3 retries with backoff, then manual review. [View thread]"</div>
+          </noscript>
+          <div id="terminal-lines" aria-live="polite"></div>
+          <span id="terminal-cursor" class="inline-block w-2 h-4 bg-mist/60 align-text-bottom animate-pulse" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <p class="text-[14px] text-ink/50 mt-4 text-center">
+        Up and running in under 2 minutes.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  type LineType = 'prompt' | 'response' | 'thinking' | 'answer';
+
+  interface TerminalLine {
+    type: LineType;
+    text: string;
+    delay?: number;
+  }
+
+  const lines: TerminalLine[] = [
+    { type: 'prompt', text: '/threadmark connect #payments-eng' },
+    { type: 'response', text: '✓ Connected. Threadmark is watching #payments-eng.', delay: 200 },
+    { type: 'prompt', text: '/threadmark ask why do we retry webhooks 3 times?', delay: 500 },
+    { type: 'thinking', text: 'Thinking…', delay: 400 },
+    { type: 'answer', text: '"Decided by Hannah K. on 14 Oct: 3 retries with backoff, then manual review. [View thread]"', delay: 900 },
+  ];
+
+  const lineColors: Record<LineType, string> = {
+    prompt: 'rgba(251,246,240,0.55)',
+    response: '#2F6F6A',
+    thinking: 'rgba(251,246,240,0.30)',
+    answer: '#F7C948',
+  };
+
+  const prompts: Record<LineType, string> = {
+    prompt: '$ ',
+    response: '  ',
+    thinking: '  ',
+    answer: '  ',
+  };
+
+  const linesContainer = document.getElementById('terminal-lines');
+  const cursor = document.getElementById('terminal-cursor');
+  let played = false;
+
+  async function sleep(ms: number): Promise<void> {
+    return new Promise((r) => setTimeout(r, ms));
+  }
+
+  async function typeText(el: HTMLElement, text: string, speed = 28): Promise<void> {
+    el.textContent = '';
+    for (const char of text) {
+      el.textContent += char;
+      await sleep(speed);
+    }
+  }
+
+  async function playTerminal(): Promise<void> {
+    if (!linesContainer || played) return;
+    played = true;
+    linesContainer.innerHTML = '';
+
+    for (const line of lines) {
+      await sleep(line.delay ?? 300);
+
+      if (line.type === 'thinking') {
+        const div = document.createElement('div');
+        div.style.color = lineColors.thinking;
+        div.textContent = '  ' + line.text;
+        linesContainer.appendChild(div);
+        await sleep(800);
+        linesContainer.removeChild(div);
+        continue;
+      }
+
+      const div = document.createElement('div');
+      div.style.color = lineColors[line.type];
+      linesContainer.appendChild(div);
+      await typeText(div, prompts[line.type] + line.text, line.type === 'answer' ? 20 : 28);
+    }
+
+    if (cursor) cursor.style.display = 'none';
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0]?.isIntersecting) {
+        playTerminal();
+        observer.disconnect();
+      }
+    },
+    { threshold: 0.4 }
+  );
+
+  const terminalBody = document.getElementById('terminal-body');
+  if (terminalBody) observer.observe(terminalBody);
+
+  // Copy button
+  const copyBtn = document.getElementById('terminal-copy');
+  const copyLabel = document.getElementById('copy-label');
+  const toCopy = '/threadmark connect #payments-eng\n/threadmark ask why do we retry webhooks 3 times?';
+
+  copyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(toCopy);
+      if (copyLabel) {
+        copyLabel.textContent = 'Copied!';
+        setTimeout(() => { if (copyLabel) copyLabel.textContent = 'Copy'; }, 2000);
+      }
+    } catch {
+      // silently fail if clipboard not available
+    }
+  });
+</script>

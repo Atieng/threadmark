@@ -1,0 +1,127 @@
+---
+import Tag from './Tag.astro';
+
+interface Props {
+  type: 'Decision' | 'Fix' | 'Answer' | 'Ownership' | 'Change';
+  title: string;
+  channel?: string;
+  author?: string;
+  authorAvatar?: string;
+  avatarBg?: string;
+  contributorsAvatars?: string[];
+  contributorsBgs?: string[];
+  replaces?: string | null;
+  timeAgo?: string;
+  source?: string;
+  replaced?: boolean;
+  showActions?: boolean;
+  rotate?: boolean;
+  class?: string;
+}
+
+const {
+  type,
+  title,
+  channel,
+  author,
+  authorAvatar,
+  avatarBg = '#2F6F6A',
+  contributorsAvatars = [],
+  contributorsBgs = [],
+  replaces,
+  timeAgo,
+  source,
+  replaced = false,
+  showActions = false,
+  rotate = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<article
+  class={`entry-card bg-mist border border-fog rounded-[var(--radius-card)] p-5 shadow-sm ${rotate ? '-rotate-1' : ''} ${replaced ? 'opacity-60' : ''} ${className}`}
+  style={rotate ? 'box-shadow: 4px 4px 0 0 var(--color-ink);' : ''}
+>
+  <!-- Header -->
+  <div class="flex items-start justify-between gap-3 mb-3">
+    <Tag type={type} />
+    {timeAgo && (
+      <span class="text-[12px] text-ink/40 whitespace-nowrap">{timeAgo}</span>
+    )}
+  </div>
+
+  <!-- Title -->
+  <h3
+    class={`entry-title text-[17px] leading-[1.35] mb-3 ${replaced ? 'line-through decoration-ember decoration-2' : ''}`}
+  >
+    {title}
+  </h3>
+
+  <!-- Replaces -->
+  {replaces && !replaced && (
+    <p class="text-[12px] text-ink/50 mb-3">
+      Replaces: <em>"{replaces}"</em>
+    </p>
+  )}
+  {replaced && (
+    <p class="text-[12px] text-ember mb-3 font-bold">Replaced by a newer decision</p>
+  )}
+
+  <!-- Footer -->
+  <div class="flex items-center justify-between gap-3 flex-wrap">
+    <div class="flex items-center gap-2">
+      <!-- Author avatar -->
+      {authorAvatar && (
+        <div class="flex -space-x-1.5">
+          <div
+            class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold text-white border-2 border-mist"
+            style={`background-color: ${avatarBg}`}
+            aria-label={author}
+          >
+            {authorAvatar}
+          </div>
+          {contributorsAvatars.map((av, i) => (
+            <div
+              class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold text-white border-2 border-mist"
+              style={`background-color: ${contributorsBgs[i] ?? '#2F6F6A'}`}
+              aria-label={av}
+            >
+              {av}
+            </div>
+          ))}
+        </div>
+      )}
+      {author && (
+        <span class="text-[12px] text-ink/60">{author}</span>
+      )}
+    </div>
+    <div class="flex items-center gap-2">
+      {channel && (
+        <span class="text-[12px] text-moss">{channel}</span>
+      )}
+      {source && (
+        <a href="#" class="text-[12px] text-moss underline-offset-2 hover:underline">
+          {source}
+        </a>
+      )}
+    </div>
+  </div>
+
+  <!-- Demo actions -->
+  {showActions && (
+    <div class="mt-4 pt-4 border-t border-fog flex items-center gap-3 flex-wrap">
+      <button
+        class="demo-confirm px-4 py-2 bg-moss text-mist text-[13px] font-bold rounded-[var(--radius-btn)] hover:brightness-105 transition-all"
+        type="button"
+      >
+        Confirm entry
+      </button>
+      <button
+        class="demo-edit px-4 py-2 bg-transparent border border-fog text-ink text-[13px] font-bold rounded-[var(--radius-btn)] hover:bg-fog/50 transition-all"
+        type="button"
+      >
+        Edit first
+      </button>
+    </div>
+  )}
+</article>

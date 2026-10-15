@@ -1,0 +1,147 @@
+---
+import Tag from '../ui/Tag.astro';
+import entries from '../../content/entries.json';
+
+const catches = entries.whatItCatches;
+const tabs = Object.keys(catches) as (keyof typeof catches)[];
+---
+
+<section
+  class="what-it-catches py-20 md:py-28 bg-blush"
+  aria-labelledby="catches-heading"
+  id="what-it-catches"
+>
+  <div class="container">
+    <div class="mb-12">
+      <h2 id="catches-heading" data-reveal="text" class="text-ink mb-3">
+        What it catches.
+      </h2>
+      <p class="text-[17px] text-ink/60" style="max-width: 44ch;">
+        Five types of knowledge, all hiding in your Slack threads right now.
+      </p>
+    </div>
+
+    <!-- Tab bar -->
+    <div
+      class="relative flex flex-wrap gap-1 mb-10 border-b border-fog pb-0"
+      role="tablist"
+      aria-label="Knowledge types"
+    >
+      <!-- Sliding underline -->
+      <div
+        data-tab-highlight
+        class="absolute bottom-0 left-0 h-0.5 bg-ink pointer-events-none transition-none"
+        aria-hidden="true"
+        style="width: 0px;"
+      ></div>
+
+      {tabs.map((tab, i) => (
+        <button
+          data-catches-tab
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          class="relative px-4 pb-3 pt-2 text-[14px] font-bold transition-colors duration-[var(--dur-fast)]
+            aria-selected:text-ink aria-[selected=false]:text-ink/40
+            hover:text-ink"
+          type="button"
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+
+    <!-- Tab panels -->
+    {tabs.map((tab, i) => {
+      const data = catches[tab];
+      const entry = data.entry;
+      return (
+        <div
+          data-catches-panel
+          role="tabpanel"
+          hidden={i !== 0}
+          aria-label={`${tab} example`}
+        >
+          <div class="grid md:grid-cols-2 gap-8 items-start max-w-[860px]">
+
+            <!-- Chat snippet -->
+            <div>
+              <p class="text-[12px] font-bold text-ink/40 mb-3">The chat</p>
+              <div class="rounded-[var(--radius-card)] border border-fog bg-white overflow-hidden">
+                <div class="px-4 py-3 border-b border-fog bg-gray-50 flex items-center gap-2">
+                  <span class="text-ink/40 text-[14px]">#</span>
+                  <span class="text-[13px] font-bold text-ink">{entry.channel.replace('#', '')}</span>
+                </div>
+                <div class="p-4 space-y-3">
+                  {data.messages.map((msg: { author: string; avatar: string; bg: string; text: string; highlight?: boolean }) => (
+                    <div class="flex gap-3">
+                      <div
+                        class="w-7 h-7 rounded-sm flex-shrink-0 flex items-center justify-center text-[12px] font-bold text-white mt-0.5"
+                        style={`background-color: ${msg.bg}`}
+                        aria-hidden="true"
+                      >
+                        {msg.avatar}
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-[13px] font-bold text-ink mb-0.5">{msg.author}</p>
+                        <p
+                          class={`text-[13px] leading-[1.5] m-0 relative ${msg.highlight ? 'font-medium' : 'text-ink/70'}`}
+                        >
+                          {msg.highlight && (
+                            <span
+                              class="absolute inset-[-2px_-4px] bg-highlighter rounded-[2px] -z-10"
+                              aria-hidden="true"
+                            ></span>
+                          )}
+                          {msg.text}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <!-- Becomes → entry card -->
+            <div>
+              <p class="text-[12px] font-bold text-ink/40 mb-3">Becomes</p>
+              <article class="bg-mist border border-fog rounded-[var(--radius-card)] p-5 shadow-sm">
+                <div class="flex items-start justify-between gap-3 mb-3">
+                  <Tag type={entry.type as 'Decision' | 'Fix' | 'Answer' | 'Ownership' | 'Change'} />
+                </div>
+                <h3 class="entry-title text-[16px] leading-[1.35] mb-3">{entry.title}</h3>
+                {entry.replaces && (
+                  <p class="text-[12px] text-ink/50 mb-3">
+                    Replaces: <em>"{entry.replaces}"</em>
+                  </p>
+                )}
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold text-white"
+                      style={`background-color: ${entry.avatarBg}`}
+                      aria-hidden="true"
+                    >
+                      {entry.authorAvatar}
+                    </div>
+                    <span class="text-[12px] text-ink/60">{entry.author}</span>
+                  </div>
+                  <span class="text-[12px] text-moss">{entry.channel}</span>
+                </div>
+              </article>
+            </div>
+
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<script>
+  import { initTabs } from '../../scripts/motion.ts';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initTabs('[data-catches-tab]', '[data-catches-panel]');
+  });
+</script>
