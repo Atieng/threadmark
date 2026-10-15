@@ -255,6 +255,26 @@ export function initHowItWorksPins(): void {
   const line = section.querySelector<HTMLElement>('[data-hiw-line-fill]');
   if (!steps.length) return;
 
+  // On small screens skip the pin — just reveal steps as they scroll in
+  if (window.innerWidth < 640) {
+    steps.forEach((step, i) => {
+      gsap.fromTo(
+        step,
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power2.out',
+          delay: i * 0.08,
+          scrollTrigger: { trigger: step, start: 'top 90%', toggleActions: 'play none none none' },
+          onStart() { step.style.cssText += '; --step-opacity: 1; --step-y: 0px;'; },
+        }
+      );
+    });
+    return;
+  }
+
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,

@@ -51,8 +51,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://threadma
     <!-- View Transitions -->
     <ClientRouter />
 
-    <!-- Cloudflare Web Analytics -->
-    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "PLACEHOLDER"}'></script>
+    <!-- No-JS fallback: show elements that GSAP would otherwise reveal -->
+    <noscript>
+      <style>
+        [data-hiw-step] { opacity: 1 !important; transform: none !important; }
+        [data-hero="mockup"] { opacity: 1 !important; }
+        [data-msg] { opacity: 1 !important; transform: none !important; }
+        [data-entry-card] { opacity: 1 !important; transform: none !important; }
+      </style>
+    </noscript>
   </head>
   <body>
     <slot />
